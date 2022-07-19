@@ -1,10 +1,3 @@
-# vimrc-settings
-how to make vi(m) colorful in both root and home. (sudo vi and vi)
-
-## vim 편리하게 세팅하기
-- 홈 디렉토리(`~/`)에 `.vimrc` 파일을 생성하고 다음과 같이 쓸 수 있다.
-
-```
 set number    " line 표시
 set ai    " auto indent
 set si " smart indent
@@ -25,11 +18,3 @@ syntax on    " 문법 하이라이트 on
 filetype indent on    " 파일 종류에 따른 구문 강조
 set mouse=a    " 커서 이동을 마우스로 가능하도록
 colo murphy " 컬러
-```
-
-## root 계정에도 적용하기
-- 홈 디렉토리에만 설정파일을 두면 `$vi`할 때만 적용된다.
-- `$vi`와 `$sudo vi`는 같은 실행파일이 아니기 때문에, 각각 설정해주어야 한다.
-- `$sudo vi` 할 때도 적용하려면,
-    - `/root/` 경로에 `.vimrc` 파일을 두면 된다.
-    - 루트경로(`/`)가 아니라 루트경로의 "root 디렉토리" (`/root`) 임에 주의
