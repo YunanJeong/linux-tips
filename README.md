@@ -32,7 +32,7 @@ memory=8G
     - `swap=0`로 설정시 가상메모리 기능이 꺼진다. 
     - 가상메모리 기능은 일반적으로 많이 쓰이므로, hdd만 쓰는게 아니라면 켜두는 것이 나쁘지 않다.
     
-  - localhostForwding
+  - localhostForwarding
     - 윈도우에서 localhost IP로 wsl 내 프로세스에 접근가능토록 해주는 기능이다. 
     - wsl도 vm이기 때문에 가상어댑터에 할당된 IP를 쓰는게 맞지만, 편의상 MS에서 넣어준 기능이라고 보면된다.
     - 역으로, wsl 내부에서 localhost로 윈도우에 접근하는 것은 원천적으로 안된다.
