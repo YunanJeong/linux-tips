@@ -1,16 +1,14 @@
-# 레포지토리 등록 or 사전 설치 후
+# 레포지토리 등록 (링크 및 버전 확인 필요)
+wget -qO - https://packages.confluent.io/deb/7.2/archive.key | sudo apt-key add -
+sudo add-apt-repository -y "deb [arch=amd64] https://packages.confluent.io/deb/7.2 stable main"
+sudo add-apt-repository -y "deb https://packages.confluent.io/clients/deb $(lsb_release -cs) main"
+sudo apt-get update
+
+# 설치
+sudo apt-get install -y confluent-schema-registry
 
 # deb파일 추출
-mkdir dpkg && cd dpkg
+mkdir dpkg_schema_registry && cd dpkg_schema_registry
 sudo apt-get install -y apt-rdepend
-apt-rdepends {패키지명} | {awk,grep 등 파싱} | xargs apt-get download
+apt-rdepends confluent-schema-registry | grep confluent | grep -v Depends | xargs apt-get download
 cd ..
-
-# 장점
-    # apt-rdepends: 의존관계에 있는 모든 라이브러리를 recursively 보여준다.
-    # 내부망에 패키지 설치 후 누락된 dependency들을 일괄적으로 확인하기 좋다.
-
-# 단점
-    # apt-rdepend 설치 필요
-    # 예외없는 전체 dependency tree라서 불필요한 내용이 많음
-    # 최소한의 필수 dependency는 다른 방법으로 확인하는 것이 좋음
