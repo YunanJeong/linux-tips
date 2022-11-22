@@ -35,13 +35,14 @@ colo murphy " 컬러
     - 루트경로(`/`)가 아니라 루트경로의 "root 디렉토리" (`/root`) 임에 주의
 
 ## 편리하게 설정하기
-- 다음과 같이 인터넷 환경에서 curl이나 wget으로 바로 설정 가능
+- 인터넷 환경에서 curl이나 wget으로 바로 설정 가능
 ```
 # 방법1
-$ wget https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc
-$ sudo cp .vimrc /root/.vimrc
-
+wget https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc
+sudo cp .vimrc /root/.vimrc
+```
+```
 # 방법2
-$ curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc > ~/.vimrc
-$ sudo su -c 'curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc > /root/.vimrc'
-
+curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc > ~/.vimrc
+sudo su -c 'curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc > /root/.vimrc'
+```
