@@ -28,11 +28,9 @@
 	$ sudo systemctl status docker.service
 	```
 - WSL systemd 지원 여부
-	- **Windows11, WSL 0.67.6 이상** 환경에서 공식지원
-		- [systemd 활성화 방법(공식)](https://devblogs.microsoft.com/commandline/systemd-support-is-now-available-in-wsl/)
-	- 이하 사양의 경우, 공식지원 안됨
-		- 대신 [genie](https://github.com/arkane-systems/genie) 라는 오픈소스 프로젝트를 활용
-		- 설치방법은 간단하고, 한글 블로그 자료도 많다.
+	- [Windows11, WSL 0.67.6 이상 환경에서 systemd 활성화 방법](https://devblogs.microsoft.com/commandline/systemd-support-is-now-available-in-wsl/) 공식지원
+	- 이하 사양에서는 미지원
+		- 오픈소스 프로젝트 [genie](https://github.com/arkane-systems/genie)를 설치하여 systemd 활성화 가능
 		- genie는 다음과 같이 끄거나 켤 수 있다.
 		```
 		# Powershell 관리자 권한에서,
