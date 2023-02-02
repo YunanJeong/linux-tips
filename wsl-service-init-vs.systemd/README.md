@@ -29,8 +29,22 @@
 	```
 - WSL systemd 지원 여부
 	- [Windows11, WSL 0.67.6 이상 환경에서 systemd 활성화 방법](https://devblogs.microsoft.com/commandline/systemd-support-is-now-available-in-wsl/) 공식지원
+	- Windows 10도 WSL 업데이트 후 가능
+		- PowerShell에서 `> wsl --update`
+		- WSL에서 `$ sudo vi /etc/wsl.conf`
+			```
+			[boot]
+			systemd=true
+			```
+		- PowerShell에서 `> wsl --shutdown` 후 WSL 재실행
+		- systemd 설정완료 후 일부 vscode버전에서 `code .` 커맨드 사용이 불가능한 이슈
+			- 아래 기술할 genie가 이미 설치되어있어 충돌했을 가능성이 높다.
+			- `$sudo apt remove systemd-genie`로 삭제 해주고 WSL을 재실행한다.
+			- 문제가 지속될 경우, `/etc/wsl.conf`삭제, WSL재실행으로 systemd를 끌 수 있다. 이후 `code .` 사용이 가능하다.
+
 	- 이하 사양에서는 미지원
 		- 오픈소스 프로젝트 [genie](https://github.com/arkane-systems/genie)를 설치하여 systemd 활성화 가능
+		- 편하긴 한데 업데이트 및 호환성에 취약하므로 주의
 		- genie는 다음과 같이 끄거나 켤 수 있다.
 		```
 		# Powershell 관리자 권한에서,
