@@ -2,7 +2,7 @@
 
 # deb파일 추출
 mkdir dpkg && cd dpkg
-sudo apt-get install -y apt-rdepend
+sudo apt-get install -y apt-rdepends
 apt-rdepends {패키지명} | {awk,grep 등 파싱} | xargs apt-get download
 cd ..
 
