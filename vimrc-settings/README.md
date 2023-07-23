@@ -39,11 +39,10 @@ colo murphy " 컬러
 ```
 # 방법1
 wget https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc
-sudo cp .vimrc /root/.vimrc
-sudo mv .vimrc ~/.vimrc
+sudo cp .vimrc /root/.vimrc && sudo mv .vimrc ~/.vimrc
 ```
 ```
 # 방법2
 sudo su -c 'curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc' > ~/.vimrc
-sudo cp ~/.vimrc /root/.vimrc'
+sudo cp ~/.vimrc /root/.vimrc
 ```
