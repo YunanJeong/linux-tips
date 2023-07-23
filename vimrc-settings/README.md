@@ -44,6 +44,6 @@ sudo mv .vimrc ~/.vimrc
 ```
 ```
 # 방법2
-sudo curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc > ~/.vimrc
-sudo su -c 'curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc > /root/.vimrc'
+sudo su -c 'curl https://raw.githubusercontent.com/YunanJeong/linux-tips/main/vimrc-settings/.vimrc' > ~/.vimrc
+sudo cp ~/.vimrc /root/.vimrc'
 ```
