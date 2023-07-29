@@ -1,14 +1,14 @@
-# wsl-settings
-wsl 설정 (램 사용량 제한하기)
+# wslconfig
+wsl 설정 (램메모리 사용량 제한하기)
 
 ## 문제
-- wsl2가 메모리부족시 동적할당으로 계속 할당받고나서 반환을 하지않는다.
+- WSL2가 메모리부족시 동적할당으로 계속 할당받고나서 반환을 하지않는다.
 
 ## 해결방법
-- `C:\Users\{Username}` 경로에 파일명 `.wslconfig`로 파일생성 후, 다음과 같은 내용을 기입한다.
-```
+- `C:\Users\{Username}` 경로에 파일명 `.wslconfig`로 파일생성 후, 다음 내용을 기입한다.
+```shell
 [wsl2]
-memory=8G              	    
+memory=12G              	    
 
 #memory=<size>              # How much memory to assign to the WSL2 VM.
 #kernel=<path>              # An absolute Windows path to a custom Linux kernel.
@@ -23,7 +23,7 @@ memory=8G
 
 - powershell에서 `$wsl --shutdown`으로 wsl을 완전종료한다.
 - wsl 재실행 후, `$htop`으로 설정 메모리로 표기되는지 확인한다.
-  - 16GB PC에서 일반실행시, 기존엔 12GB 정도(윈도우의 80%)로 표기된다. 위 설정을 완료하면, 설정값(8GB)으로만 표기된다.
+  - 디폴트에선 윈도우호스트 메모리의 80% 정도로 표기되는데, 위 설정 후엔 설정값(12GB)으로 표기된다.
 
 - 메모리 제한 외에 많이들 쓰는 옵션
   - swap
