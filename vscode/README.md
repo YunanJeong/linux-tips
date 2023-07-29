@@ -1,12 +1,12 @@
 # Vscode
 
 # 유용한 extension
-- wsl: vscode에 설치가능한 wsl을 위한 extension이다. wsl에서 `code . `로 vscode 실행시 wsl extention 설치권장알림이 뜨는데, 꼭 설치하도록 한다.
+- wsl: vscode에 설치가능한 wsl을 위한 extension이다. wsl에서 `code . `로 vscode 실행시 wsl extension 설치권장알림이 뜨는데, 꼭 설치하도록 한다.
 - blockman: indent에 따라 코드전체를 박스쳐서 잘 보이게 해줌
 
 
-# wsl extention의 역할
-텍스트 편집만 vscode에서 하고, 빌드 및 실행은 WSL터미널에서 하면 wsl extention 없이도 작업은 가능하지만 여러모로 불편한 점이 많다. wsl extension은 다음과 같은 기능을 지원한다.
+# wsl extension의 역할
+텍스트 편집만 vscode에서 하고, 빌드 및 실행은 WSL터미널에서 하면 wsl extension 없이도 작업은 가능하지만 여러모로 불편한 점이 많다. wsl extension은 다음과 같은 기능을 지원한다.
 
 ### 1. vscode 자체에서 서브윈도우로 wsl 터미널을 열기
 
