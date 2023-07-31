@@ -20,6 +20,7 @@ Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
   - 레지스트리 편집기에서 다음 경로로 이동한다.
   - `컴퓨터\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\`
   - 한 단계 더 하위경로인 중괄호 {}로 구성된 폴더로 진입하면 BasePath를 확인할 수 있다.
+  - [공홈](https://learn.microsoft.com/ko-kr/windows/wsl/disk-space)에 따르면 CLI 커맨드로도 찾을 수 있다.
 
 ## 해결2
 
