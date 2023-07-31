@@ -1,0 +1,41 @@
+# WSL Storage Care
+
+## 문제
+
+WSL이 호스트의 스토리지를 제한없이 동적으로 썼다가 반환하지 않음
+
+## 해결
+
+- 관리자 권한 파워쉘에서 다음 실행
+
+```sh
+# wsl 종료
+wsl --shudown
+
+# 최적화 명령어
+Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
+```
+
+- ext4.vhdx 파일 위치 찾는 법
+  - 레지스트리 편집기에서 다음 경로로 이동한다.
+  - `컴퓨터\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\`
+  - 한 단계 더 하위경로인 중괄호 {}로 구성된 폴더로 진입하면 BasePath를 확인할 수 있다.
+
+## 해결2
+
+[스토리지 여유가 있는 다른 드라이브로 ext4.vhdx 옮기기](https://sonhc.tistory.com/900) 
+
+## 용어
+
+- ext4: 리눅스 파일 시스템 형식 중 하나. 4는 버전.
+- vhdx: 윈도우의 Hyper-V 가상 하드 디스크 파일 형식
+- ext4.vhdx: ext4 파일 시스템을 Hyper-V에서 사용하기 위해 변환된 파일 형식
+
+
+
+
+
+C:\Users\yunan\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState
+
+
+`컴퓨터\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\{e46f7e55-feaf-4659-a5c0-b13e86798dc8}`
