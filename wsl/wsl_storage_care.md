@@ -8,7 +8,7 @@ WSL이 호스트의 스토리지를 제한없이 동적으로 썼다가 반환�
 
 - 관리자 권한 파워쉘에서 다음 실행
 
-```sh
+```powershell
 # wsl 종료
 wsl --shudown
 
@@ -24,7 +24,29 @@ Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
 
 ## 해결2
 
-[스토리지 여유가 있는 다른 드라이브로 ext4.vhdx 옮기기](https://sonhc.tistory.com/900) 
+[스토리지 여유가 있는 다른 드라이브로 ext4.vhdx 옮기기](https://toridori.tistory.com/179) 
+
+```powershell
+# 현재 배포된 WSL의 이름 확인
+> wsl -l -v
+  NAME      STATE           VERSION
+* Ubuntu    Running         2
+
+# 경로변경할 대상 WSL을 파일로 추출
+# wsl --export {WSL 배포 이름} {옮길 저장경로 및 파일명.tar}
+> wsl --export Ubuntu D:\wsl\Ubuntu.tar
+
+# 실행중인 WSL 등록 취소
+# wsl --unregister {WSL 배포 이름}
+> wsl --unregister Ubuntu
+
+# 추출한 파일을 다시 import
+# wsl --import {WSL 배포 이름} {저장경로 및 파일명.tar}
+> wsl --import Ubuntu D:\Ubuntu.tar
+
+# 확인
+
+```
 
 ## 용어
 
