@@ -1,14 +1,18 @@
 # wslconfig
+
 wsl 설정 (램메모리 사용량 제한하기)
 
 ## 문제
+
 - WSL2가 메모리부족시 동적할당으로 계속 할당받고나서 반환을 하지않는다.
 
 ## 해결방법
+
 - `C:\Users\{Username}` 경로에 파일명 `.wslconfig`로 파일생성 후, 다음 내용을 기입한다.
+
 ```shell
 [wsl2]
-memory=12G              	    
+memory=12G   
 
 #memory=<size>              # How much memory to assign to the WSL2 VM.
 #kernel=<path>              # An absolute Windows path to a custom Linux kernel.
@@ -29,11 +33,11 @@ memory=12G
   - swap
     - 메모리 부족시 ssd를 끌어와 가상메모리로 쓰는 기능
     - `memory` 옵션을 걸어놓지 않으면, 의미가 없다. 실제 램메모리를 다 집어삼키고 작동되기 때문
-    - `swap=0`로 설정시 가상메모리 기능이 꺼진다. 
+    - `swap=0`로 설정시 가상메모리 기능이 꺼진다.
     - 가상메모리 기능은 일반적으로 많이 쓰이므로, hdd만 쓰는게 아니라면 켜두는 것이 나쁘지 않다.
-    
+
   - localhostForwarding
-    - 윈도우에서 localhost IP로 wsl 내 프로세스에 접근가능토록 해주는 기능이다. 
+    - 윈도우에서 localhost IP로 wsl 내 프로세스에 접근가능토록 해주는 기능이다.
     - wsl도 vm이기 때문에 가상어댑터에 할당된 IP를 쓰는게 맞지만, 편의상 MS에서 넣어준 기능이라고 보면된다.
     - 역으로, wsl 내부에서 localhost로 윈도우에 접근하는 것은 원천적으로 안된다.
 
