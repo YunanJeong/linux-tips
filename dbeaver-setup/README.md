@@ -1,6 +1,6 @@
 # dbeaver-setup
 
-리눅스에서 dbeaver 셋업
+리눅스(원격서버, 비인터넷 환경)에서 dbeaver 셋업
 
 ## [공식 다운로드 페이지](https://dbeaver.io/download/)
 
@@ -14,6 +14,9 @@
 ```sh
 # 추가 라이브러리 설치
 sudo apt install libswt-gtk-4-java
+
+# deb파일 다운로드
+apt-get download libswt-gtk-4-java && apt-cache depends -i libswt-gtk-4-java
 ```
 
 ## 아카이브 설치 (권장)
@@ -32,7 +35,7 @@ tar xvzf dbeaver-ce-latest-linux.gtk.x86_64.tar.gz
 # 추가 라이브러리 설치 
 sudo apt install libswt-gtk-4-java
 
-# 실행
+# 실행(ssh 기반으로 연결된 DBMS 관리도구가 실행됨)
 ./dbeaver/dbeaver
 ```
 
@@ -44,7 +47,7 @@ sudo apt install libswt-gtk-4-java
 
 - dbeaver가 도커허브로 제공하는 CloudBeaver라는 이미지
 - 비슷한 기능의 다른 앱이다.
-- DB 매니저 UI를 웹기반으로 접근할 수 있다.
-- DB 매니저 자체를 원격 서버에 설치한다고 했을 때,,,
+- DB 관리도구 UI를 웹기반으로 접근할 수 있다.
+- DB 관리도구를 원격 서버에 설치한다고 했을 때,,,
   - dbeaver는 ssh 접속 터미널에서 실행시 UI가 따로 실행되는데
   - CloudBeaver는 따로 웹 접속용 포트도 있어야 할 것으로 보인다.
