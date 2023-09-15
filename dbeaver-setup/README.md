@@ -39,6 +39,12 @@ sudo apt install libswt-gtk-4-java
 ./dbeaver/dbeaver
 ```
 
+## Driver 설치
+
+DBeaver는 connection 설정 단계 중, 필요한 드라이버를 인터넷으로 자동 설치한다.
+
+비인터넷 환경이라면 해당 단계에 표기된 Website를 따라가서 파일을 다운받고 수동설치하도록 하자.
+
 ## deb 패키지 설치
 
 - java 17 이상 요구
