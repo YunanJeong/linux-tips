@@ -64,9 +64,9 @@ apt-get download libswt-gtk-4-java && apt-cache depends -i libswt-gtk-4-java
 
 ### CloudBeaver
 
-- dbeaver가 도커허브로 제공하는 CloudBeaver라는 이미지
-- 비슷한 기능의 다른 앱이다.
+- dbeaver에서 도커허브로 제공하는 CloudBeaver라는 이미지
+- dbeaver와 비슷한 기능의 다른 앱
 - DB 관리도구 UI를 웹기반으로 접근할 수 있다.
 - DB 관리도구를 원격 서버에 설치한다고 했을 때,,,
-  - dbeaver는 ssh 접속 터미널에서 실행시 UI가 따로 실행되는데
-  - CloudBeaver는 따로 웹 접속용 포트도 있어야 할 것으로 보인다.
+  - dbeaver는 ssh 접속 터미널에서 실행시 UI가 따로 실행되는데, CloudBeaver는 따로 웹 접속용 포트도 있어야 할 것으로 보인다.
+  - 드라이버도 개별 다운로드가 필요해서 오프라인 환경에서 추가 관리가 필요할 듯
