@@ -24,3 +24,21 @@ wsl extension은 다음과 같은 기능을 지원한다.
 
 - wsl extension 설치안하면 vscode 창이 꺼질 때까지 터미널 점유함
 - `code . &`으로 실행하거나, wsl extension을 설치하면 해결
+
+## 4 systemd 활성화시 exe 파일 link에 문제발생
+
+- 문제
+
+```sh
+$ code .
+/mnt/c/Users/USER/AppData/Local/Programs/Microsoft VS Code/bin/code: 61: /mnt/c/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe: Exec format error
+```
+
+- 해결방법: 다음 명령어 수행([git이슈](https://github.com/microsoft/WSL/issues/8952))
+
+```sh
+sudo sh -c 'echo :WSLInterop:M::MZ::/init:PF > /usr/lib/binfmt.d/WSLInterop.conf'
+sudo systemctl unmask systemd-binfmt.service
+sudo systemctl restart systemd-binfmt
+sudo systemctl mask systemd-binfmt.service
+```

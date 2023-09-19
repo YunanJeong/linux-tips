@@ -79,6 +79,13 @@ git issue에 원인/해결 스레드가 많은데, 추천수 많은 것 위주�
 
 ### Case 2. systemd 활성화시 exe 파일 link에 문제발생
 
+- 문제
+
+```sh
+$ code .
+/mnt/c/Users/USER/AppData/Local/Programs/Microsoft VS Code/bin/code: 61: /mnt/c/Users/USER/AppData/Local/Programs/Microsoft VS Code/Code.exe: Exec format error
+```
+
 - 해결방법: 다음 명령어 수행([git이슈](https://github.com/microsoft/WSL/issues/8952))
 
 ```sh
