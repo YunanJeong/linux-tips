@@ -70,3 +70,8 @@ apt-get download libswt-gtk-4-java && apt-cache depends -i libswt-gtk-4-java
 - DB 관리도구를 원격 서버에 설치한다고 했을 때,,,
   - dbeaver는 ssh 접속 터미널에서 실행시 UI가 따로 실행되는데, CloudBeaver는 따로 웹 접속용 포트도 있어야 할 것으로 보인다.
   - 드라이버도 개별 다운로드가 필요해서 오프라인 환경에서 추가 관리가 필요할 듯
+
+### DBeaver에서 원격 DB를 dump할 때
+
+- 로컬 클라이언트의 `mysqldump`를 활용하게 되는데, 해당 bin파일 경로를 별도 지정 필요
+- `mysqldump`는 mysql server 설치시 포함되어 있음
