@@ -73,5 +73,11 @@ apt-get download libswt-gtk-4-java && apt-cache depends -i libswt-gtk-4-java
 
 ### DBeaver에서 원격 DB를 dump할 때
 
-- 로컬 클라이언트의 `mysqldump`를 활용하게 되는데, 해당 bin파일 경로를 별도 지정 필요
+- 원격 DB를 dump하더라도, 로컬 클라이언트의 dbeaver에서 `mysqldump`가 필요
 - `mysqldump`는 mysql server 설치시 포함되어 있음
+- dump 설정 창에서 mysql 또는 mysqldump의 bin 파일경로를 지정해야 함
+
+```sh
+sudo apt install mysql
+which mysql
+```
