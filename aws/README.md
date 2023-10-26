@@ -6,7 +6,8 @@
 - 하지만, 이러면 보안이 떨어지므로 다음과 같은 방법을 이용한다. 
 
 ## "버킷에서" 특정 IAM User(Access Key) 허용하기
-S3 버킷의 '권한' 탭-'버킷 정책' 으로 등록
+- 콘솔 S3의 특정버킷 웹페이지로가면, 상단쯤에 '권한' 탭-'버킷 정책' 으로 등록
+- `arn:aws:iam::your-account-id:user/your-iam-user`부분은 IAM User 개별항목으로 가면 복사할 수 있다.
 ```json
 {
     "Version": "2012-10-17",
