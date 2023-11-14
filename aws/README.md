@@ -92,4 +92,6 @@
 - VPC와 서브넷 설정이 필요
 - VPC가 큰 단위고 VPC안에 속한 작은 네트워크 단위가 서브넷
 - 네트워크 경계 그룹: `ap-northeast-2` 와 같은 것을 의미
-- 가용 영역: ????
+- 가용 영역: ap-northeast-2a, ap-northeast-2b, ap-northeast-2c, ap-northeast-2d 와 같이 표현되는 것들
+
+
