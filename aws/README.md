@@ -90,8 +90,14 @@
 ### 참고
 
 - VPC와 서브넷 설정이 필요
-- VPC가 큰 단위고 VPC안에 속한 작은 네트워크 단위가 서브넷
+- VPC가 큰 네트워크 단위고 VPC안에 속한 작은 단위가 서브넷
+  - VPC에 큰 private ip 대역이 있고, 서브넷마다 세부 대역으로 나눠 쓰는 개념
+- VPC내부 인스턴스 간 private ip로 통신가능
+- 서브넷은 Public과 Private으로 나눠짐
+  - Private: 내부 전용. 외부 연결시 NAT 필요하고 내부->외부 방향의 request만 가능(반대 방향 불가)
+  - Public: 외부 통신 자유롭게 가능
 - 네트워크 경계 그룹: `ap-northeast-2` 와 같은 것을 의미
-- 가용 영역: ap-northeast-2a, ap-northeast-2b, ap-northeast-2c, ap-northeast-2d 와 같이 표현되는 것들
-
+- 가용 영역
+  - ap-northeast-2a, ap-northeast-2b, ap-northeast-2c, ap-northeast-2d 와 같이 표현되는 것들
+  - 실제 AWS 데이터센터 위치를 의미하며 한 서브넷은 한 가용영역에 있어야 함.
 
