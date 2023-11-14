@@ -79,3 +79,17 @@
 
 - 새 IAM Role 생성 후 role에 필요한 권한(S3 Access, Athena Access, ..) 부여
 - EC2 인스턴스 생성시 IAM 인스턴스 프로파일 항목에서 IAM Role을 불러올 수 있다.
+
+## [NAT 게이트웨이 구성하기](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-creating)
+
+### 필요한 상황
+
+- EC2에 구축된 클러스터 시스템에서 외부 시스템에 접근할 때, 외부시스템에서 이를 하나의 소스 공인 IP로 인식하도록 하기 위함
+- 외부 시스템이 소스 IP에 대해 인가하는 구조일 수 있는데, 클러스터 시스템이 스케일 아웃될 때마다 새로 할당되는 노드 IP의 인가를 처리하는 것은 비효율적일 수 있기 때문
+
+### 참고
+
+- VPC와 서브넷 설정이 필요
+- VPC가 큰 단위고 VPC안에 속한 작은 네트워크 단위가 서브넷
+- 네트워크 경계 그룹: `ap-northeast-2` 와 같은 것을 의미
+- 가용 영역: ????
