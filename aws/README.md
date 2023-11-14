@@ -100,4 +100,3 @@
 - 가용 영역
   - ap-northeast-2a, ap-northeast-2b, ap-northeast-2c, ap-northeast-2d 와 같이 표현되는 것들
   - 실제 AWS 데이터센터 위치를 의미하며 한 서브넷은 한 가용영역에 있어야 함.
-
