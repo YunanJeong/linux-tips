@@ -100,3 +100,8 @@
 - 가용 영역
   - ap-northeast-2a, ap-northeast-2b, ap-northeast-2c, ap-northeast-2d 와 같이 표현되는 것들
   - 실제 AWS 데이터센터 위치를 의미하며 한 서브넷은 한 가용영역에 있어야 함.
+
+- [라우팅 테이블 생성 방법](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/WorkWithRouteTables.html#SubnetRouteTables)
+  - 특정 인스턴스만 연결하는 개념이 아니라, 각 인스턴스에서 라우팅 테이블에 등록된 IP:Port로 request를 보내면 최종 외부목적지로 포트포워딩된다.
+  - 특정 인스턴스만 해당 게이트웨이를 쓸 수 있도록 하려면, 서브넷으로 인스턴스들을 격리해야할 듯 하다.
+
