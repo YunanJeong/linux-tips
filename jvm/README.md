@@ -12,7 +12,7 @@
 
 - [자바앱 GC와 timeout,멈춤현상 이유, GC 튜닝방법](https://donghyeon.dev/java/2020/03/31/%EC%9E%90%EB%B0%94%EC%9D%98-JVM-%EA%B5%AC%EC%A1%B0%EC%99%80-Garbage-Collection/)
 
-- [GC 정상동작 확인과 튜닝여부 결정방법](https://d2.naver.com/helloworld/37111)
+- [(Naver D2)GC 정상동작 확인과 튜닝여부 결정방법](https://d2.naver.com/helloworld/37111)
 
 
 ```sh
