@@ -23,3 +23,17 @@ pmap -x {jps 번호} | sort -k 3 -n -r | more
 jstat -gc {jps 번호}
 jstat -gcutil {jps 번호}
 ```
+
+## GC 종류
+
+- Minor GC (Young Generation GC)
+  - 힙 메모리중 Young Generation(Eden Space + Survivor Space)에서 발생
+  - Eden 영역이 가득차면 발생
+- Major GC (Old Generation GC)
+  - Minor GC에서 살아남은 객체 메모리들은 Old 세대로 취급되는데, 이들을 GC
+  - Old 영역이 가득차면 발생
+  - Old 영역이 가득차지 않아도 Old 영역의 메모리사용량이 감소하는 경우가 있는데, 이것은 확인필요
+- Full GC (Complete GC)
+  - Yonng, Old 영역 전체에서 GC
+  - 힙메모리가 가득차면 발생
+  - Major GC와 혼용되기도 하는데, 구분할 필요가 있을 듯
