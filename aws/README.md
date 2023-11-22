@@ -80,10 +80,16 @@
 - 새 IAM Role 생성 후 role에 필요한 권한(S3 Access, Athena Access, ..) 부여
 - EC2 인스턴스 생성시 IAM 인스턴스 프로파일 항목에서 IAM Role을 불러올 수 있다.
 
-## [NAT 게이트웨이 구성하기](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-creating)
+## [AWS NAT 게이트웨이 구성하기](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-creating)
+
+### NAT
+
+- 내부 네트워크의 사설IP 주소를 외부네트워크의 공인IP주소로 변환하는 기술
+- NAT를 통하면 내부->외부로 request는 되지만 반대반향 request는 불가
 
 ### 필요한 상황
 
+- 개별 서버를 외부에 노출되지 않도록할 때 사용
 - EC2에 구축된 클러스터 시스템에서 외부 시스템에 접근할 때, 외부시스템이 여러 노드로부터 온 트래픽을 하나의 소스 공인 IP로 인식하도록 하기 위해 필요
 - 외부 시스템이 소스 IP에 대해 인가하는 구조일 수 있는데, 클러스터 시스템이 스케일 아웃될 때마다 새로 할당되는 노드 IP를 인가하는 것은 비효율적이기 때문
 
@@ -94,8 +100,8 @@
   - VPC에 큰 private ip 대역이 있고, 서브넷마다 세부 대역으로 나눠 쓰는 개념
 - VPC내부 인스턴스 간 private ip로 통신가능
 - 서브넷은 Public과 Private으로 나눠짐
-  - Private: 내부 전용. 외부 연결시 NAT 필요하고 내부->외부 방향의 request만 가능(반대 방향 불가)
-  - Public: 인스턴스에 Public IP 등록시 외부 통신 자유롭게 가능
+  - Private: 내부 전용. 외부 연결시 NAT로 내부->외부만 가능. 반대방향은 원천적으로 불가.
+  - Public: 개별 인스턴스 단위로 Public IP 등록시 외부 통신 자유롭게 가능
 - 네트워크 경계 그룹: `ap-northeast-2` 와 같은 것을 의미
 - 가용 영역
   - ap-northeast-2a, ap-northeast-2b, ap-northeast-2c, ap-northeast-2d 와 같이 표현되는 것들
@@ -106,8 +112,8 @@
 
 - [라우팅 테이블 생성 방법](https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/WorkWithRouteTables.html#SubnetRouteTables)
 - AWS NAT GW를 쓰려면 라우팅테이블이 필요하다.
-  - 개별 인스턴스에서 라우팅 테이블에 등록된 IP:Port로 request를 보내면 NAT GW를 거쳐 포트포워딩된다.
-  - 특정 인스턴스만 해당 GW를 쓸 수 있게 하려면, 서브넷으로 인스턴스들을 격리해야 한다.
+  - 개별 인스턴스에서 라우팅 테이블에 등록된 목적지IP로 request를 보내면 NAT GW를 거쳐 포워딩된다. 이 과정에서 트래픽의 소스IP가 변조된다.
+  - 특정 인스턴스만 해당 GW를 쓸 수 있게 하려면, 특정 서브넷에 인스턴스를 격리해야 한다.
 - AWS의 라우팅 테이블은 VPC의 하위항목이고, 개별 서브넷과 연결되어 사용되는 개념이다.
 - `하나의 서브넷은 하나의 라우팅 테이블만 가진다.`
 - 하나의 라우팅 테이블은 여러 서브넷에서 사용될 수 있다.
