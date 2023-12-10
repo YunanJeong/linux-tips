@@ -5,12 +5,13 @@
 
 ## FTP Client
 
-### CLI (우분투 내장)
+### CLI 
 
-- ftp
-- sftp
+- ftp(우분투 내장)
+- sftp(우분투 내장)
   - 실무에선 보통, SFTP 프로토콜만 쓰인다. 폐쇄망이라면 간단히 ftp도 괜찮긴함
 - ncftp
+  - `recursive 지원`
 
     ```sh
     sudo apt install ncftp
@@ -38,4 +39,4 @@
 
 - ftplib
   - python에서 많이 사용되나 기능이 좀 부족한 느낌
-    - 여러 파일 일괄 다운로드 or 여러 경로 Recursive 조회 및 다운로드하는 기능이 없어서 직접 구현 필요
+  - `여러 파일 일괄 다운로드` or `여러 경로 Recursive 조회 및 다운로드` 기능이 직접지원되지 않아서 코드구현 필요
