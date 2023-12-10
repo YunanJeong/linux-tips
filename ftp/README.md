@@ -9,7 +9,18 @@
 
 - ftp
 - sftp
-- => 실무에선 보통, SFTP 프로토콜만 쓰인다. 폐쇄망이라면 간단히 ftp도 괜찮긴함
+  - 실무에선 보통, SFTP 프로토콜만 쓰인다. 폐쇄망이라면 간단히 ftp도 괜찮긴함
+- ncftp
+
+    ```sh
+    sudo apt install ncftp
+    
+    # 특정 경로 파일 다운로드
+    ncftpget -u {USER} -p {PASSWORD} ftp://{server}:{port}/{filepath}
+
+    # 하위 경로 Recursive하게 파일 다운로드
+    ncftpget -R -u {USER} -p {PASSWORD} ftp://{server}:{port}/{filepath}
+    ```
 
 ### GUI
 
@@ -22,18 +33,6 @@
 
 - filezilla client
   - 공홈에서 리눅스용 아카이브 파일 다운로드가능
-
-- ncftp
-
-    ```sh
-    sudo apt install gftp
-    
-    # 특정 경로 파일 다운로드
-    ncftpget -u {USER} -p {PASSWORD} ftp://{server}:{port}/{filepath}
-
-    # 하위 경로 Recursive하게 파일 다운로드
-    ncftpget -R -u {USER} -p {PASSWORD} ftp://{server}:{port}/{filepath}
-    ```
 
 ### Python
 
