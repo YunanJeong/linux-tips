@@ -5,7 +5,7 @@
 
 ## FTP Client
 
-### CLI 
+### CLI
 
 - ftp(우분투 내장)
 - sftp(우분투 내장)
