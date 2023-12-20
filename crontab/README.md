@@ -67,5 +67,5 @@ crontab -e
 */1 * * * * date >> ~/cron_time.log
 
 # 10분마다 스토리지 기록 남기기
-echo -n $(date)'@@@@@' && df -h | grep /dev/ >> ~/storage.log
+*/10 * * * * (echo -n $(date)'@@@@@' && df -h | grep /dev/ ) >> ~/storage.log
 ```
