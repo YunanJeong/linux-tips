@@ -1,7 +1,6 @@
 # network
 
-
-```
+```sh
 # 인바운드 아웃바운드 설정 조회
 sudo ufw status
 
