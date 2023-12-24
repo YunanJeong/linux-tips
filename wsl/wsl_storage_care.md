@@ -26,7 +26,7 @@ Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
 
 ## 해결2
 
-[스토리지 여유가 있는 다른 드라이브로 ext4.vhdx 옮기기](https://toridori.tistory.com/179) 
+[스토리지 여유가 있는 다른 드라이브로 ext4.vhdx 옮기기](https://toridori.tistory.com/179)
 
 - 관리자 권한 파워쉘에서 진행
 
