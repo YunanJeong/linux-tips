@@ -40,4 +40,3 @@ sudo cat /etc/pam.d/common-password
 ```
 
 - 패스워드 정책 변경([블로그](https://velog.io/@ifthenelse/ubuntu-%EA%B3%84%EC%A0%95-%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C-%EA%B4%80%EB%A6%AC))
-
