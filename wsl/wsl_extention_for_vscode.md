@@ -1,8 +1,6 @@
 # vscode에서 wsl extension
 
-wsl에서 `code .`로 vscode 실행시 wsl extension 설치권장알림이 뜨는데, 꼭 설치하도록 한다.
-
-텍스트 편집만 vscode에서 하고, 빌드 및 실행은 WSL터미널에서 하면 wsl extension 없이도 작업가능하지만, 여러모로 불편한 점이 많다.
+wsl에서 `code .`로 vscode 실행시 wsl extension 설치권장알림이 뜨는데, 꼭 설치하도록 한다. 설치하지 않더라도 사용가능하지만, wsl과 vscode 간 호환문제가 발생한다.
 
 wsl extension은 다음과 같은 기능을 지원한다.
 
