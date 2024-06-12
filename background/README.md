@@ -4,7 +4,7 @@
 # &: 백그라운드 실행
 mycommand &
 
-# nohup: 터미널 세션 종료시에도 백그라운드 실행 보장
+# nohup(no hang up): 터미널 세션 종료시에도 백그라운드 실행 보장
 nohup mycommand &
 
 # nohup에 sudo 붙이면 mycommand에도 root 권한 보장
