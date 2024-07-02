@@ -28,22 +28,22 @@ jstat -gcutil 14 30s
 
 ### jstat 실행결과 보는 법
 
-- S0C (Survivor 0 Capacity): Survivor 0 영역의 용량 (바이트 단위)
-- S1C (Survivor 1 Capacity): Survivor 1 영역의 용량 (바이트 단위)
-- S0U (Survivor 0 Utilization): Survivor 0 영역의 사용량 (바이트 단위)
-- S1U (Survivor 1 Utilization): Survivor 1 영역의 사용량 (바이트 단위)
-- EC (Eden Capacity): Eden 영역의 용량 (바이트 단위)
-- EU (Eden Utilization): Eden 영역의 사용량 (바이트 단위)
-- OC (Old Capacity): Old 영역의 용량 (바이트 단위)
-- OU (Old Utilization): Old 영역의 사용량 (바이트 단위)
-- MC (Metaspace Capacity): Metaspace 영역의 용량 (바이트 단위)
-- MU (Metaspace Utilization): Metaspace 영역의 사용량 (바이트 단위)
-- CCSC (Compressed Class Space Capacity): 압축된 클래스 공간의 용량 (바이트 단위)
-- CCSU (Compressed Class Space Utilization): 압축된 클래스 공간의 사용량 (바이트 단위)
+- S0C (Survivor 0 Capacity): Survivor 0 영역의 용량 (KB 단위)
+- S1C (Survivor 1 Capacity): Survivor 1 영역의 용량 (KB 단위)
+- S0U (Survivor 0 Utilization): Survivor 0 영역의 사용량 (KB 단위)
+- S1U (Survivor 1 Utilization): Survivor 1 영역의 사용량 (KB 단위)
+- EC (Eden Capacity): Eden 영역의 용량 (KB 단위)
+- EU (Eden Utilization): Eden 영역의 사용량 (KB 단위)
+- OC (Old Capacity): Old 영역의 용량 (KB 단위)
+- OU (Old Utilization): Old 영역의 사용량 (KB 단위)
+- MC (Metaspace Capacity): Metaspace 영역의 용량 (KB 단위)
+- MU (Metaspace Utilization): Metaspace 영역의 사용량 (KB 단위)
+- CCSC (Compressed Class Space Capacity): 압축된 클래스 공간의 용량 (KB 단위)
+- CCSU (Compressed Class Space Utilization): 압축된 클래스 공간의 사용량 (KB 단위)
 - YGC (Young Generation GC Count): Young Generation에서 발생한 GC 횟수
-- YGCT (Young Generation GC Time): Young Generation에서 발생한 GC에 소요된 시간 (초 단위)
+- YGCT (Young Generation GC Time): Young Generation에서 발생한 GC에 소요된 시간 (sec)
 - FGC (Full GC Count): 전체 힙에서 발생한 GC 횟수
-- FGCT (Full GC Time): 전체 힙에서 발생한 GC에 소요된 시간 (초 단위)
+- FGCT (Full GC Time): 전체 힙에서 발생한 GC에 소요된 시간 (sec)
 
 ## GC 종류
 
