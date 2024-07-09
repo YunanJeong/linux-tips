@@ -4,7 +4,7 @@
 
 - [간단한 힙메모리 분석방법, jstat](https://steady-coding.tistory.com/591)
 - [Garbage Collection 동작방식 및 용어정리](https://dongwooklee96.github.io/post/2021/04/04/gcgarbage-collector-%EC%A2%85%EB%A5%98-%EB%B0%8F-%EB%82%B4%EB%B6%80-%EC%9B%90%EB%A6%AC.html)
-- [힙메모리 설정과 실제 물리메모리가 다르게 표기되는 이유](https://woooongs.tistory.com/85)
+- [실제 점유메모리가 힙메모리 설정보다 낮을 때 이유](https://woooongs.tistory.com/85)
   - VIRT,RES,SHR 의미
   - JVM 은 가상메모리에는 최소 힙 사이즈 만큼 공간을 할당하지만, 실제로 객체를 힙에 저장하기 전까지는 물리 메모리를 점유하지 않는다.
   - JVM이 객체저장을 위해 한 번 물리메모리를 점유하고나면, Garbage Collection이 발생해도 해당객체만 할당해제하는 것일 뿐, 이미 점유한 물리메모리는 OS에 반환하지 않는다.
