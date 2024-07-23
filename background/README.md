@@ -18,3 +18,24 @@ docker run -d myimage
 # -d: docker compose up 할 때 백그라운드 실행
 docker compose up -d
 ```
+
+## Linux 서비스 (systemd)
+
+```sh
+sudo systemctl start myapp.service
+sudo systemctl stop myapp.service
+sudo systemctl restart myapp.service
+
+# 특정 서비스만 골라서 로그 상세보기(u 옵션)
+sudo journalctl -u muapp.service
+```
+
+## Linux 서비스 (service)
+
+```sh
+sudo service myapp start
+sudo service myapp stop
+sudo service myapp status
+```
+
+## => systemd와 service의 차이는 wsl 디렉토리의 마크다운을 참고
