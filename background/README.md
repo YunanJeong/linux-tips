@@ -1,5 +1,7 @@
 # 백그라운드 실행
 
+## Linux 내장 백그라운드 기능
+
 ```sh
 # &: 백그라운드 실행
 mycommand &
@@ -11,6 +13,8 @@ nohup mycommand &
 sudo nohup mycommand &
 ```
 
+## Docker 백그라운드
+
 ```sh
 # -d: docker run 할 때 백그라운드 실행
 docker run -d myimage 
@@ -19,23 +23,24 @@ docker run -d myimage
 docker compose up -d
 ```
 
-## Linux 서비스 (systemd)
+## Linux 서비스
 
 ```sh
+# systemd
 sudo systemctl start myapp.service
 sudo systemctl stop myapp.service
 sudo systemctl restart myapp.service
+sudo journalctl -u myapp.service  # 특정 서비스만 골라서 로그 상세보기(u 옵션)
+sudo journalctl -f -u myapp.service  # 
 
-# 특정 서비스만 골라서 로그 상세보기(u 옵션)
-sudo journalctl -u muapp.service
-```
-
-## Linux 서비스 (service)
-
-```sh
+# service
 sudo service myapp start
 sudo service myapp stop
 sudo service myapp status
-```
 
 ## => systemd와 service의 차이는 wsl 디렉토리의 마크다운을 참고
+```
+
+## tmux 세션
+
+- restart같은 기능처럼 robust한 관리는 힘들지만 빠르게 백그라운드 프로세스 띄울 때 아주 유용하다.
