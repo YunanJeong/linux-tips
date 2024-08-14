@@ -82,4 +82,11 @@ jvm 버전 마다 조금씩 GC 종류와 방식이 다르기는 한데, 대략�
 # Java11 기본값7 (1~15로 설정가능)
 -XX:MaxTenuringThreshold=<n>
 
+# -XX:+UnlockDiagnosticVMOptions: 추가 옵션(GCLockerRetryAllocationCount)을 활성화하기 위해 사용
+# GCLocker 관련옵션: https://discuss.elastic.co/t/gclocker-too-often-allocating-256-words/323769/2
+# GCLocker: JVM에서 특정 상황(주로 네이티브 코드가 Java 객체에 접근할 때)에서 가비지 컬렉션을 일시적으로 멈추게 하는 메커니즘. 네이티브 코드가 안전하게 Java 객체를 사용할 수 있도록 보장
+# GCLocker 활성시 JVM은 메모리할당 시도 불가. => 메모리할당 재시도=> 횟수초과시 OOM 취급
+# => 근데 default 재시도 횟수가 적음 => task가 많을 때는 조금만 더 기다리면되는데 재시도횟수가 max에 도달해서 약간 Fake(?)스러운 OOM을 뱉어내고 앱이 중단됨
+# 이를 방지하기위해 재시도 횟수를 아래처럼 커스터마이징 
+-XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100
 ```
