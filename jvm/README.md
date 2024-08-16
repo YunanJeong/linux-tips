@@ -11,7 +11,7 @@
 - [자바앱 GC와 timeout,멈춤현상 이유, GC 튜닝방법](https://donghyeon.dev/java/2020/03/31/%EC%9E%90%EB%B0%94%EC%9D%98-JVM-%EA%B5%AC%EC%A1%B0%EC%99%80-Garbage-Collection/)
 - [(Naver D2)GC 정상동작 확인과 튜닝여부 결정방법](https://d2.naver.com/helloworld/37111)
 
-## GC 상태를 간단하게 모니터링해볼 수 있는 방법
+## 간단한 GC 상태 모니터링 방법 (jdk 내장 명령어)
 
 ```sh
 java -XX:+PrintFlagsFinal -version 2>&1 | grep -i -E 'heapsize|permsize|version'
@@ -26,47 +26,97 @@ jstat -gc 14 30s
 jstat -gcutil 14 30s
 ```
 
-### jstat 실행결과 보는 법
+### jstat 지표 설명
 
 - S0C (Survivor 0 Capacity): Survivor 0 영역의 용량 (KB 단위)
 - S1C (Survivor 1 Capacity): Survivor 1 영역의 용량 (KB 단위)
 - S0U (Survivor 0 Utilization): Survivor 0 영역의 사용량 (KB 단위)
 - S1U (Survivor 1 Utilization): Survivor 1 영역의 사용량 (KB 단위)
-- EC (Eden Capacity): Eden 영역의 용량 (KB 단위)
-- EU (Eden Utilization): Eden 영역의 사용량 (KB 단위)
-- OC (Old Capacity): Old 영역의 용량 (KB 단위)
-- OU (Old Utilization): Old 영역의 사용량 (KB 단위)
+- `EC (Eden Capacity): Eden 영역의 용량 (KB 단위)`
+- `EU (Eden Utilization): Eden 영역의 사용량 (KB 단위)`
+- `OC (Old Capacity): Old 영역의 용량 (KB 단위)`
+- `OU (Old Utilization): Old 영역의 사용량 (KB 단위)`
 - MC (Metaspace Capacity): Metaspace 영역의 용량 (KB 단위)
 - MU (Metaspace Utilization): Metaspace 영역의 사용량 (KB 단위)
 - CCSC (Compressed Class Space Capacity): 압축된 클래스 공간의 용량 (KB 단위)
 - CCSU (Compressed Class Space Utilization): 압축된 클래스 공간의 사용량 (KB 단위)
-- YGC (Young Generation GC Count): Young Generation에서 발생한 GC 횟수
-- YGCT (Young Generation GC Time): Young Generation에서 발생한 GC에 소요된 시간 (sec)
-- FGC (Full GC Count): 전체 힙에서 발생한 GC 횟수
-- FGCT (Full GC Time): 전체 힙에서 발생한 GC에 소요된 시간 (sec)
+- `YGC (Young Generation GC Count): Young Generation에서 발생한 GC 횟수`
+- `YGCT (Young Generation GC Time): YGC에 소요된 총 누적 시간 (sec)`
+- CGC (Concurrent Garbage Collection Count): CMS(Concurrent Mark-Sweep) GC와 같은 병행 GC 알고리즘에서 발생한 GC의 횟수
+- CGCT (Concurrent Garbage Collection Time): CMS GC와 같은 병행 GC 알고리즘에서 발생한 GC에 소요된 총 시간
+- `FGC (Full GC Count): 전체 힙에서 발생한 GC 횟수`
+- `FGCT (Full GC Time): FGC에 소요된 총 누적 시간 (sec)`
+
+### **jstat보면서 실제로 고려할 것**
+
+- YGC를 얼마나 자주하는가? (EC 점유율 오르는 속도)
+- FGC를 얼마나 자주하는가?
+- YGC 1회의 평균처리시간 = YGCT / YGC
+- FGC 1회의 평균처리시간 = FGCT / FGC
+- 위 값이 적정치가 되도록 JVM 커스텀 옵션을 변경하면됨. (제일 하단 참고)
+- 적정치 기준은 앱마다 다르나, [(Naver D2)GC 정상동작 확인과 튜닝여부 결정방법](https://d2.naver.com/helloworld/37111)에 아주 잘 정리되어있음.
+
+## JVM 메모리 구조
+
+```tree
+JVM Memory
+├── Heap Memory
+│ ├── Young Generation
+│ │ ├── Eden Space
+│ │ ├── Survivor Space 0 (S0)
+│ │ └── Survivor Space 1 (S1)
+│ └── Old Generation
+└── Non-Heap Memory
+└── Metaspace
+```
 
 ## GC 종류
 
-jvm 버전 마다 조금씩 GC 종류와 방식이 다르기는 한데, 대략적으로 아래와 같이 파악하고 있으면 될 듯 하다.
+- Minor GC, Major GC, Full GC는 GC개념에서 사용되는 통상적인 용어이며, jvm 버전, GC 알고리즘마다 명칭, 방식이 다를 수 있음
+  - jdk 9 이후 default 알고리즘: `G1GC`
+  - YGC, CGC, Mixed GC, incremental GC, ... 는 범용적이기보다는 좀 더 파생적인 용어인데 블로그에서 자주 혼용되니까 참고
 
-### Minor GC (Young Generation GC)
+```sh
+# 현재 JVM 설정 및 GC 알고리즘 확인
+jinfo -flags {jps로 확인한 pid}
+```
 
-- 힙 메모리중 Young Generation(Eden Space + Survivor Space)에서 발생
-- Eden 영역이 가득차면 발생
+### Minor GC
 
-### Major GC (Old Generation GC)
+- **대상**: Young Generation (Eden Space + Survivor Space)
+- **주기**: 비교적 자주 발생
+- **목적**: Young Generation에서 살아남지 못한(더 참조되지 않는) 객체를 청소하고, 살아남은 객체를 Survivor Space 또는 Old Generation으로 이동
+- **특징**:
+  - 빠르게 수행됨
+  - 애플리케이션의 일시 중지 시간이 짧음
+  - `Young Generation의 Eden Space가 가득 찼을 때 트리거`됨
+  - `jstat에서 EC 가득차면 YGC 1번 발생`하는 것으로 보면 됨
 
-- Minor GC에서 살아남은 객체 메모리들은 Old 세대로 취급되는데, 이들을 GC
-- Old 영역이 가득차면 발생
-- Old 영역이 가득차지 않아도 Old 영역의 메모리사용량이 감소하는 경우가 있는데, 이것은 확인필요
-  - incremetal GC로 추정된다. Minor GC가 일어날때 마다 Old영역을 조금씩 GC를 해서 Full GC가 발생하는 횟수나 시간을 줄이는 방법이다.[[출처]](https://devyongsik.tistory.com/100)
+### Major GC
 
-### Full GC (Complete GC)
+- **대상**: 주로 Old Generation
+- **주기**: 비교적 덜 자주 발생
+- **목적**: Old Generation에서 살아남지 못한(더 참조되지 않는) 객체를 청소
+- **특징**:
+  - Minor GC보다 시간이 더 오래 걸림
+  - 애플리케이션의 일시 중지 시간이 길어질 수 있음
+  - `Old Generation이 가득 찼을 때 트리거`됨
+  - `Old 영역이 가득차지 않아도 Old 영역 사용량이 감소`하는 경우가 있는데, `특정 GC알고리즘의 동적조절기능` 덕분임
+  - 실제구현에선 `오래걸리는 Old 세대 GC(Major, Full GC)를 가급적 피하기 위해 Old 영역을 미리 조절`하는 방법들이 보편적으로 사용됨
+  - `jstat 통계에서도 YGC(Minor GC), FGC는 있지만 Major GC와 1:1 대응한다고 볼만한 항목은 없음`
+  - 일부 GC 알고리즘에서는 Young Generation도 대상으로 포함
+  - e.g. Mixed GC(G1GC 알고리즘), incremental GC(CMS GC 알고리즘) 등
 
-- Yonng, Old 영역 전체에서 GC
-- 힙메모리가 가득차면 발생
-- GC 유형 중 가장 느린 작업이다. 전체 메모리를 조회하기 때문. 메모리가 크면 클수록 GC작업이 길어지고, 앱 중지시간도 길어진다.
-- Major GC와 혼용되기도 하는데, 구분할 필요가 있을 듯
+### Full GC
+
+- **대상**: 힙 전체 (Young Generation과 Old Generation 모두)
+- **주기**: 매우 드물게 발생
+- **목적**: 힙 전체를 청소하고, 메모리 단편화를 해결
+- **특징**:
+  - Major GC보다 시간이 더 오래 걸림
+  - 애플리케이션의 모든 스레드를 일시 중지시킴
+  - 주로 메모리 부족, 메타스페이스 부족, 또는 GC 알고리즘의 내부 실패 시 트리거됨
+  - 모든 세대(Young, Old, Metaspace 등)를 포함하여 전체 힙을 청소
 
 ## JVM 커스텀 옵션
 
