@@ -134,12 +134,7 @@ jinfo -flags {jps로 확인한 pid}
 
 # -XX:+UnlockDiagnosticVMOptions: 추가 옵션(GCLockerRetryAllocationCount)을 활성화하기 위해 사용
 # GCLocker 관련옵션: https://discuss.elastic.co/t/gclocker-too-often-allocating-256-words/323769/2
-# GCLocker: JVM에서 특정 상황(주로 네이티브 코드가 Java 객체에 접근할 때)에서 가비지 컬렉션(GC)을 일시적으로 멈추게 하는 메커니즘. 네이티브 코드가 안전하게 Java 객체를 사용할 수 있도록 보장
-# GCLocker 활성시 JVM은 GC가 불가능하므로, 신규 메모리 할당에 실패할 수 있음. 이 때 JVM은 신규 메모리 할당을 계속 재시도 함.
-# JVM은 메모리할당을 재시도=> 횟수초과시 OOM 취급
-# => task 많을시, GCLocker 매커니즘이 자주 발생하여 JVM의 GC가 중단될 가능성이 더 커짐 => JVM의 메모리할당 재시도 횟수가 금방 max에 달하여 OOM 발생
-# => 실제론 GC하면서 버틸 수 있는 충분한 메모리자원이 있음에도 불구하고, 일부 task에선 약간 Fake(?)스러운 OOM을 뱉어내고 앱이 중단됨
-# 이를 방지하기위해 재시도 횟수를 아래처럼 커스터마이징 
+# GCLocker 장기화로 인한 OOM 방지(하단 항목 참고)
 -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100
 ```
 
@@ -147,30 +142,31 @@ jinfo -flags {jps로 확인한 pid}
 
 #### GCLocker?
 
-- JVM에서 특정 상황(주로 네이티브 코드가 Java 객체에 접근할 때)에서 가비지 컬렉션(GC)을 일시적으로 멈추게 하는 메커니즘임. 네이티브 코드가 Java 객체를 안전하게 사용할 수 있도록 보장함.
-
-#### GCLocker 활성화 시 문제점
-
-- **GC 중단**: GCLocker가 활성화되면 JVM은 GC 수행 불가
-- **메모리 할당 실패**: GC차단으로 JVM이 신규 메모리 할당에 실패할 수 있음. (GC없이도 여분 메모리까지는 할당에 성공함)
-- **재시도**: JVM은 정해진 횟수만큼 메모리 할당을 재시도(`GCLockerRetryAllocationCount` 옵션)
-- **OOM 발생**: 재시도 횟수 초과시 JVM은 OutOfMemoryError(OOM) 상황으로 판단
+- JVM에서 특정 상황(주로 네이티브 코드가 Java 객체에 접근할 때)에서 `가비지 컬렉션(GC)을 일시적으로 멈추게` 하는 메커니즘임. 네이티브 코드가 Java 객체를 안전하게 사용할 수 있도록 보장함.
 
 #### 이슈 사례: GCLocker 장기화로 인한 OOM
 
-1. 일부 작업 구간에서 GCLocker 활성시간이 길어져, JVM의 GC와 신규 메모리할당이 정체될 수 있음 (특히, `다수 Task 작업시 Task마다 GCLocker가 발생하면 이럴 가능성이 큼`)
-2. JVM의 메모리할당 재시도 횟수 초과로 OOM 발생
-3. GCLocker 비활성화 후 느리게라도 GC가 수행된다면 충분한 메모리 사양에도 불구하고, OOM이 발생하여 앱 전체가 중단되는 사태 발생
+1. 일부 작업 구간에서 GCLocker 활성시간이 길어져, JVM의 GC가 지속적으로 차단될 수 있음 (특히, `다수 Task 작업시 Task마다 GCLocker가 발생하면 이럴 가능성이 큼`)
+2. JVM은 정해진 작업에 따라 신규 메모리 할당 진행
+3. 여유 메모리가 없어지면 GC가 수행되어야 하나, GCLocker로 인해 더 이상 신규 메모리 할당불가
+4. JVM은 계속 메모리할당을 재시도
+5. 재시도 횟수 초과시 JVM은 이를 OOM으로 판단(default retry: 5)
+6. GCLocker 비활성화를 대기하다가 `늦게라도 GC가 수행된다면 충분할 메모리 사양에도 불구하고, Fake(?) OOM이 발생하여 앱 전체가 중단`되는 사태 발생
 
 #### 해결책
 
-- **재시도 횟수 커스터마이징**: `GCLockerRetryAllocationCount` 옵션을 조정해서 메모리 할당 재시도 횟수를 늘리면, GCLocker로 인한 Fake OOM 발생을 방지할 수 있음. default 값이 5번 정도로 꽤나 작은 편.
-- **스케일업**
-  - 클라우드 등 서버 사양에 자유로운 환경이라면, 메모리보다 cpu쪽의 성능을 증설하는 것이 (GCLocker 구간을 빨리 탈출하기에) 더 효율적일 수 있다.
-  - 메모리 증설: GCLocker 활성화 중에도 여유메모리가 많으므로 신규 메모리할당에 실패하지 않는다.
-- 결과적으로 일부 작업 구간에서 앱실행속도가 느릴 수는 있어도 JVM이 GCLocker 비활성화를 기다리면서 느리게라도 GC가 수행하여 새로운 메모리를 할당하므로 OOM Error로 인한 중단을 방지할 수 있음
+- 재시도 횟수 커스터마이징
+  - default가 5번인데, 꽤 적은 수치로 보임
+  - `GCLockerRetryAllocationCount` 옵션으로 조정가능
+  - 충분한 재시도 횟수로 JVM은 GCLocker 비활성화를 대기하게 됨
+  - 일부 작업 구간에서 앱실행속도가 느릴 수는 있어도 GC가 정상수행되므로 OOM으로 인한 중단 방지 가능
 
 ```java
-// 예시: JVM 옵션 설정
 -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100
 ```
+
+- **스케일업**
+  - 클라우드 등 서버 사양에 자유로운 환경이라면 스케일업도 방법임
+  - 경험상 메모리보다는 CPU 증설이 나았음.메모리 증설만 할 시, 터무니 없이 많은 메모리가 요구됨
+  - CPU 증설: GCLocker 구간을 빨리 탈출
+  - 메모리 증설: GCLocker 활성화 중에도 여유메모리가 많으므로 신규 메모리할당에 실패하지 않을 수 있음
