@@ -86,10 +86,10 @@ jinfo -flags {jps로 확인한 pid}
 - **대상**: Young Generation (Eden Space + Survivor Space)
 - **주기**: 비교적 자주 발생
 - **목적**: Young Generation에서 살아남지 못한(더 참조되지 않는) 객체를 청소하고, 살아남은 객체를 Survivor Space 또는 Old Generation으로 이동
+- **트리거**: `Young Generation의 Eden Space가 가득 찬 경우`
 - **특징**:
   - 빠르게 수행됨
   - 애플리케이션의 일시 중지 시간이 짧음
-  - `Young Generation의 Eden Space가 가득 찼을 때 트리거`됨
   - `jstat에서 EC 가득차면 YGC 1번 발생`하는 것으로 보면 됨
 
 ### Major GC
@@ -97,31 +97,31 @@ jinfo -flags {jps로 확인한 pid}
 - **대상**: 주로 Old Generation
 - **주기**: 비교적 덜 자주 발생
 - **목적**: Old Generation에서 살아남지 못한(더 참조되지 않는) 객체를 청소
+- **트리거**: `Old Generation이 가득 찬 경우`
 - **특징**:
   - Minor GC보다 시간이 더 오래 걸림
   - 애플리케이션의 일시 중지 시간이 길어질 수 있음
-  - `Old Generation이 가득 찼을 때 트리거`됨
-  - `Old 영역이 가득차지 않아도 Old 영역 사용량이 감소`하는 경우가 있는데, `특정 GC알고리즘의 동적조절기능` 덕분임
-  - 실제구현에선 `오래걸리는 Old 세대 GC(Major, Full GC)를 가급적 피하기 위해 Old 영역을 미리 조절`하는 방법들이 보편적으로 사용됨
-  - `jstat 통계에서도 YGC(Minor GC), FGC는 있지만 Major GC와 1:1 대응한다고 볼만한 항목은 없음`
-  - 일부 GC 알고리즘에서는 Young Generation도 대상으로 포함
+  - 실제 GC알고리즘에선 `오래걸리는 Old 세대 GC(Major, Full GC)를 가급적 피하기 위해 Old 영역이 가득차기 전 미리 동적조절`하는 방법이 추가적으로 활용됨
+  - 이에 따라 실제 구현에선 MajorGC라고 직접 칭해지기 보다는 다양한 이름으로 불림
   - e.g. Mixed GC(G1GC 알고리즘), incremental GC(CMS GC 알고리즘) 등
+  - `jstat 지표에서도 YGC(Minor GC), FGC는 있지만 Major GC와 1:1 대응하는 항목은 없음`
+  - 일부 GC 알고리즘에서는 Young Generation도 대상으로 포함
 
 ### Full GC
 
 - **대상**: 힙 전체 (Young Generation과 Old Generation 모두)
 - **주기**: 매우 드물게 발생
 - **목적**: 힙 전체를 청소하고, 메모리 단편화를 해결
+- **트리거**: 주로 메모리 부족, 메타스페이스 부족, 또는 GC 알고리즘의 내부 실패 시
 - **특징**:
   - Major GC보다 시간이 더 오래 걸림
   - 애플리케이션의 모든 스레드를 일시 중지시킴
-  - 주로 메모리 부족, 메타스페이스 부족, 또는 GC 알고리즘의 내부 실패 시 트리거됨
   - 모든 세대(Young, Old, Metaspace 등)를 포함하여 전체 힙을 청소
 
 ## JVM 커스텀 옵션
 
 ```sh
-# 비율설정 Old영역/New영역 값
+# 비율설정 Old영역/New영역 값 (정수만 가능) 1~4 정도 값 주면 좋음
 -XX:NewRatio=2
 
 # 비율설정 Eden영역/Survivor영역 값 (보통 default 8인데 버전마다 다를 수 있음)
