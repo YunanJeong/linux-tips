@@ -63,7 +63,14 @@ Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
 ```powershell
 # ubuntu config --default-user {기존 사용하던 유저명}
 > ubuntu config --default-user ubuntu
+```
 
+또는 wsl ubuntu 내부의 `/etc/wsl.conf`에서 다음과 같이 설정 후 wsl 재부팅
+
+```/etc/wsl.conf
+# /etc/wsl.conf
+[user]
+default=ubuntu
 ```
 
 ## 용어
