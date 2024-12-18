@@ -9,15 +9,19 @@ sudo ufw status
 
 ## telnet
 
+- Windows 기본 탑재
+- Ubuntu에 없을시 sudo apt install -y telnet
+
 ```sh
 # 원격 연결
 # 대상 서버의 특정 앱이 살아있는지 확인할 때 유용
 # 특정 포트에 대한 네트워크 인가 확인 가능 (해당 포트로 앱이 켜져있어야 함(리스닝모드))
-# Ubuntu windows 둘 다 기본앱으로 탑재되어 있음
 telnet {IP} {Port}
 ```
 
 ## nc(netcat)
+
+- Ubuntu 기본 탑재
 
 ```sh
 # 80번 포트로 임시 서버 열기
@@ -26,6 +30,13 @@ nc -lk 80
 # -l: listen (리스닝모드 설정. 인바운드 통신 대기)
 # -p: port. p옵션은 일반적으로 생략가능
 # -k: keep-alive. (연결종료돼도 리스닝모드 유지)
+```
+
+## python
+
+```sh
+# 80번 포트로 임시 서버 열기
+python -m http.server 80
 ```
 
 ## telnet과 nc로 네트워크 인가 여부 확인 예
@@ -47,3 +58,10 @@ nc -lk 80
   - `호스트에 연결할 수 없습니다.(Connection refused)` 라는 메시지
   - 이 때는 보통 네트워크 인바운드 허용은 되어있다고 보면됨
   - Application Layer 수준의 방화벽에서 차단한 것일 수도 있음
+
+### 윈도우에서 통신테스트시
+
+- 기본 보안 설정들 때문에 통신 테스트가 잘 안될 수 있음
+- 어떤 테스트든 `파워쉘 대신 cmd 사용할 것`
+- 임시서버 실행시 python 설치 후 상기 예제로 실행 권장
+- 파워쉘에서도 임시서버 여는 커맨드 있으나 비추천
