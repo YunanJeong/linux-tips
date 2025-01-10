@@ -33,3 +33,10 @@
 
 - 구현&적용 방법
 - 일반적인 오픈소스에서 JMX 모니터링 구현 방식
+- 빅데이터 플랫폼 => 대부분 Java 기반
+  => bitnami 같은 검증된 출처면 대부분 jvm metrics 기능이 helm차트에 탑재됨
+- 독자적인 JMX Exporter 헬름 차트는 효율이 떨어짐
+  - 모니터링 대상 앱마다 릴리즈 배포 해야 함
+  - 단일 Exporter로 여러 앱 모니터링도 불가능한건 아니지만 손이 많이 감
+- 일반적으론 Pod마다 Sidecar형태로 jmx exporter 이미지를 띄워서 모니터링 하는게 보편적인 것 같음. 조금 더 테스트 필요
+  - 근데 이거 구현이 안된 헬름차트를 커스텀해서 jmx exporter를 sidecar로 넣으려면 helm value 수정가지곤 안되고 template 수정이 필요
