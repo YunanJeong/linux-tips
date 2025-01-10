@@ -1,8 +1,8 @@
 # JMX(Java Management Extensions)로 모니터링 하기
 
-## JVM에서 JMX 활성화
+## JVM에서 JMX Remote 활성화
 
-- 자바 앱 실행시 JMX 용 Remote Port 개방 옵션 필수
+- 자바 앱 실행시 JMX 활성화 및 포트 개방 옵션 필요
 
 ## JMX Exporter
 
@@ -21,7 +21,13 @@
 - 다만 `jstat` 등의 클라이언트 도구는 JDK에만 내장됨
 - JMX Exporter 사용시 JRE로만 배포된 자바앱이여도 가능
 
-## 통상적인 JMX, JMX Exporter 포트
+## 통상적인 JMX, JMX Exporter 포트와 통신 방향
+
+- 자바 앱 JMX Remote
+  - RMI Registry Port: 1099
+  - Connector Port: 5000
+- JMX Exporter: 5556
+- Request 방향: Prometheus==>JMX Exporter==>JMX Remote
 
 ## K8s Helm 차트 배포시
 
