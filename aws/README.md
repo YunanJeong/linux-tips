@@ -84,6 +84,6 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credentials/
 ```
 
 - IAM Role 정보가 정상출력될 시 AWS SDK에서 IAM Role을 통해 정상적으로 권한 인증 가능한 상태라는 의미
-- `169.254.169.254`는 AWS에서 제공하는 고정된 메타데이터 서비스 주소로, IAM Role 인증 및 현재 인스턴스 정보를 조회할 때 유용
+- `169.254.169.254`는 AWS에서 제공하는 고정된 주소 (IMDS, Instance Metadata Service)로, 현재 인스턴스 및 IAM Role 정보를 조회할 때 유용
 - AWS SDK가 액세스키 정보를 환경변수, `~/.aws/credentials` 등에서 자동 조회하듯이, `http://169.254.169.254`주소를 통해 연결된 IAM Role을 자동 조회하여 임시 자격증명을 획득한다.
 - AWS와 연결하는 서드파티 앱들은 대부분 AWS SDK를 이용해 자격증명 절차를 진행하기 때문에 동일한 방식이 보장된다.
