@@ -70,4 +70,20 @@
 ### IAM Role (IAM 역할)
 
 - 새 IAM Role 생성 후 role에 필요한 권한(S3 Access, Athena Access, ..) 부여
-- EC2 인스턴스 생성시 IAM 인스턴스 프로파일 항목에서 IAM Role을 불러올 수 있다.
+- 이후, IAM Role을 `특정 AWS 리소스에 연결`해서 사용하는 개념
+  - EC2 인스턴스 설정의 IAM 인스턴스 프로파일 항목에서 IAM Role을 불러올 수 있음
+  - 이러면 해당 EC2 인스턴스는 해당 IAM Role에 등록된 권한을 가짐
+
+### 확인
+
+```sh
+# IAM Role이 연결된 EC2 인스턴스 내부에서 실행
+# 현재 연결된 IAM Role 정보 확인
+# VM, Pod, Container 내부에서도 사용가능
+curl http://169.254.169.254/latest/meta-data/iam/security-credentials/
+```
+
+- IAM Role 정보가 정상출력될 시 AWS SDK에서 IAM Role을 통해 정상적으로 권한 인증 가능한 상태라는 의미
+- `169.254.169.254`는 AWS에서 제공하는 고정된 메타데이터 서비스 주소로, IAM Role 인증 및 현재 인스턴스 정보를 조회할 때 유용
+- AWS SDK가 액세스키 정보를 환경변수, `~/.aws/credentials` 등에서 자동 조회하듯이, `http://169.254.169.254`주소를 통해 연결된 IAM Role을 자동 조회하여 임시 자격증명을 획득한다.
+- AWS와 연결하는 서드파티 앱들은 대부분 AWS SDK를 이용해 자격증명 절차를 진행하기 때문에 동일한 방식이 보장된다.
