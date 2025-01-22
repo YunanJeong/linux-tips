@@ -115,20 +115,20 @@ AWS 내부 서비스 간 통신에선 IAM Role 기능으로 자격증명이 가�
 
 ```sh
 # IAM Role이 연결된 EC2 인스턴스 내부에서 실행
-# 현재 연결된 IAM Role 정보 확인
+# 현재 연결된 인스턴스의 메타데이터(IAM Role) 확인
 # VM, Pod, Container 내부에서도 사용가능
+
+# IMDSv1
 curl http://169.254.169.254/latest/meta-data/iam/security-credentials/
+
+# IMDSv2
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+curl -H "X-aws-ec2-metadata-token: $TOKEN" "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
 ```
 
 - IAM Role 정보가 정상출력될 시 AWS SDK에서 IAM Role을 통해 정상적으로 권한 인증 가능한 상태라는 의미
 - `169.254.169.254`는 AWS에서 제공하는 고정된 주소 (IMDS, Instance Metadata Service)로, 현재 인스턴스 및 IAM Role 정보를 조회할 때 유용
-- AWS SDK가 액세스키 정보를 환경변수, `~/.aws/credentials` 등에서 자동 조회하듯이, `http://169.254.169.254`주소를 통해 연결된 IAM Role을 자동 조회하여 임시 자격증명을 획득한다.
-- AWS와 연결하는 서드파티 앱들은 대부분 AWS SDK를 이용해 자격증명 절차를 진행하기 때문에 동일한 방식이 보장된다.
-
-### IMDSv2 관련
-
-- IAM Role을 쓰기 위해 사용하는 서비스인 IMDS의 보안강화 버전
-- IMDSv2가 생긴지는 오래됐으나, 2024년 중반부터 신규 인스턴스의 default로 강제되고 있음.
-- 기존 인스턴스만 IMDSv1 유지
-
-- IAM Role만 등록하는게 아니라 TOKEN 필요한데 이거 관련해서 추가 정리가 필요
+- AWS SDK가 액세스키 정보를 환경변수, `~/.aws/credentials` 등에서 자동 조회하듯이, `http://169.254.169.254`주소를 통해 현재 연결된 IAM Role을 자동 조회하여 임시 자격증명을 획득한다.
+- AWS와 연결하는 서드파티 앱들은 대부분 AWS SDK를 이용해 자격증명 절차를 진행하므로,
+  - IAM Role을 가진 인스턴스에서 해당 앱 실행시 대부분 자동으로 자격증명을 잘 획득한다.
+  - 보안이 강화된 IMDSv2의 경우 token이 요구되는데, 이도 AWS SDK가 잘 처리하므로 일반적으론 개발자가 신경 쓸 필요 없다. 위 curl 명령어 쓸 때만 따로 필요.
