@@ -124,3 +124,11 @@ curl http://169.254.169.254/latest/meta-data/iam/security-credentials/
 - `169.254.169.254`는 AWS에서 제공하는 고정된 주소 (IMDS, Instance Metadata Service)로, 현재 인스턴스 및 IAM Role 정보를 조회할 때 유용
 - AWS SDK가 액세스키 정보를 환경변수, `~/.aws/credentials` 등에서 자동 조회하듯이, `http://169.254.169.254`주소를 통해 연결된 IAM Role을 자동 조회하여 임시 자격증명을 획득한다.
 - AWS와 연결하는 서드파티 앱들은 대부분 AWS SDK를 이용해 자격증명 절차를 진행하기 때문에 동일한 방식이 보장된다.
+
+
+### IMDSv2 관련
+
+  - IAM Role을 쓰기 위해 사용하는 서비스인 IMDS의 보안강화 버전
+  - 생긴지는 오래됐으나, 2024년 중반부터 신규 인스턴스의 default가 IMDSv2로 변경되었으며 필수설정 취급하고 있음. 기존 인스턴스만 IMDSv1 유지되는 상태
+  
+  - IAM Role만 등록하는게 아니라 TOKEN 필요한데 이거 관련해서 추가 정리가 필요
