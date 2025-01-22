@@ -10,7 +10,8 @@
 ### "버킷에서" 특정 IAM User(Access Key) 허용하기
 
 - 콘솔 S3의 특정버킷 웹페이지로가면, 상단쯤에 '권한' 탭-'버킷 정책' 으로 등록
-- `arn:aws:iam::your-account-id:user/your-iam-user`부분은 IAM User 개별항목으로 가면 복사할 수 있다.
+- Principal.AWS는 버킷 입장에서 접근 허용할 대상 리소스의 arn을 기술하는 부분으로 IAM User, IAM Role 둘 다 기술 가능
+- ARN(`arn:aws:iam::your-account-id:user/your-iam-user`)은 AWS 리소스를 식별하는 고윳값으로 대상 리소스에서 속성 값을 참조하면 확인 가능
 - `Version` 섹션의 날짜는 고정 값이다. 당일날짜를 적는게 아니다.
 
 ```json
@@ -41,7 +42,7 @@
 }
 ```
 
-### "IAM User가" 특정 버킷에 대한 읽기/쓰기 권한 가지도록 만들기
+### "IAM User가" 특정 버킷에 대한 읽기/쓰기 권한 가지도록 정책 설정
 
 ```json
 {
@@ -73,6 +74,34 @@
 - 이후, IAM Role을 `특정 AWS 리소스에 연결`해서 사용하는 개념
   - EC2 인스턴스 설정의 IAM 인스턴스 프로파일 항목에서 IAM Role을 불러올 수 있음
   - 이러면 해당 EC2 인스턴스는 해당 IAM Role에 등록된 권한을 가짐
+
+### IAM Role이 특정 버킷에 대한 권한 가지도록 정책 설정 예시
+
+- IAM User와 정책 설정 양식은 동일함
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::TARGET_BUCKET/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": "arn:aws:s3:::TARGET_BUCKET"
+    }
+  ]
+}
+```
 
 ### 확인
 
