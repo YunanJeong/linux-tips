@@ -49,14 +49,6 @@
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "s3:GetBucketLocation",
-        "s3:ListAllMyBuckets"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
       "Action": ["s3:ListBucket"],
       "Resource": ["arn:aws:s3:::TARGET_BUCKET"]
     },
