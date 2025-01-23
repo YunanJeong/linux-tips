@@ -140,4 +140,7 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" "http://169.254.169.254/latest/meta-d
 
 - AWS STS(`https://sts.amazonaws.com`)를 통해 Role 권한 획득
 - AssumeRole 과정에서 액세스키 필요
+  - 여전히 액세스키 관리가 필요
+  - AssumeRole용 단일 액세스키 + 서버 별 다른 Role을 배정하는 방식으로 액세스키 관리 소요를 줄이는 것은 가능
+  - => 여전히 IAM User의 액세스키를 직접 사용하는 것 보다는 보안상 더 좋다고 볼 수 있음
 - 어떤 Role을 가져올지 ARN 명시 필요
