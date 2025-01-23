@@ -127,8 +127,11 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" "http://169.254.169.254/latest/meta-d
 ```
 
 - IAM Role 정보가 정상출력될 시 AWS SDK에서 IAM Role을 통해 정상적으로 권한 인증 가능한 상태라는 의미
-- `169.254.169.254`는 AWS에서 제공하는 고정된 주소 (IMDS, Instance Metadata Service)로, 현재 인스턴스 및 IAM Role 정보를 조회할 때 유용
+- `169.254.169.254`
+  - AWS에서 제공하는 고정된 주소 (IMDS, Instance Metadata Service)
+  - 현재 인스턴스 및 IAM Role 정보를 조회할 때 유용
+  - AWS 내부 서비스에서만 접근가능
 - AWS SDK가 액세스키 정보를 환경변수, `~/.aws/credentials` 등에서 자동 조회하듯이, `http://169.254.169.254`주소를 통해 현재 연결된 IAM Role을 자동 조회하여 임시 자격증명을 획득한다.
 - AWS와 연결하는 서드파티 앱들은 대부분 AWS SDK를 이용해 자격증명 절차를 진행하므로,
-  - IAM Role을 가진 인스턴스에서 해당 앱 실행시 대부분 자동으로 자격증명을 잘 획득한다.
+  - IAM Role을 가진 EC2 인스턴스에서 앱 실행시 대부분 자동으로 자격증명을 잘 획득한다.
   - 보안이 강화된 IMDSv2의 경우 token이 요구되는데, 이도 AWS SDK가 잘 처리하므로 일반적으론 개발자가 신경 쓸 필요 없다. 위 curl 명령어 쓸 때만 따로 필요.
