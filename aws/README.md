@@ -135,3 +135,9 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" "http://169.254.169.254/latest/meta-d
 - AWS와 연결하는 서드파티 앱들은 대부분 AWS SDK를 이용해 자격증명 절차를 진행하므로,
   - IAM Role을 가진 EC2 인스턴스에서 앱 실행시 대부분 자동으로 자격증명을 잘 획득한다.
   - 보안이 강화된 IMDSv2의 경우 token이 요구되는데, 이도 AWS SDK가 잘 처리하므로 일반적으론 개발자가 신경 쓸 필요 없다. 위 curl 명령어 쓸 때만 따로 필요.
+
+### AWS 외부에서 IAM Role을 사용하는 경우
+
+- AWS STS(`https://sts.amazonaws.com`)를 통해 Role 권한 획득
+- AssumeRole 과정에서 액세스키 필요
+- 어떤 Role을 가져올지 ARN 명시 필요
