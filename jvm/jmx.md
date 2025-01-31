@@ -40,3 +40,4 @@
   - 단일 Exporter로 여러 앱 모니터링도 불가능한건 아니지만 손이 많이 감
 - 일반적으론 Pod마다 Sidecar형태로 jmx exporter 이미지를 띄워서 모니터링 하는게 보편적인 것 같음. 조금 더 테스트 필요
   - 근데 이거 구현이 안된 헬름차트를 커스텀해서 jmx exporter를 sidecar로 넣으려면 helm value 수정가지곤 안되고 template 수정이 필요
+  - 빅데이터 플랫폼=>클러스터링 기반이 많은데, Sidecar 형식이 꼭 필요할 듯
