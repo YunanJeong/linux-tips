@@ -19,6 +19,12 @@ sudo nohup mycommand &
 # 
 sudo apt install -y at
 
+# 예약작업 목록조회, 취소
+
+# sudo 적용방법
+
+# 특성: 백그라운드 및 터미널 미점유
+
 ```
 
 ## Docker 백그라운드
