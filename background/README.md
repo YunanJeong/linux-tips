@@ -13,6 +13,14 @@ nohup mycommand &
 sudo nohup mycommand &
 ```
 
+## Linux 추가설치 백그라운드 기능
+
+```sh
+# 
+sudo apt install -y at
+
+```
+
 ## Docker 백그라운드
 
 ```sh
