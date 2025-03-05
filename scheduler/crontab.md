@@ -12,10 +12,6 @@ crontab -l
 crontab -e
 ```
 
-- 사용자 권한에 따라 sudo crontab을 사용해야할 수 있음
-  - 이 때는 실행되는 쉘커맨드도 root 권한의 profile을 사용하게 됨
-  - e.g. awscli의 경우 `sudo` aws configure로 설정 필요
-
 ## 크론탭 시간 설정
 
 ```sh
@@ -60,7 +56,7 @@ crontab -e
 0 1 * * *  cd /home/ubuntu/workspace/ && ./myscripts.sh  
 ```
 
-## 자주 쓰는 크론탭 설정
+## 자주 쓰는 크론탭 패턴
 
 ```sh
 # 1분마다 시간기록 남기기
@@ -68,4 +64,22 @@ crontab -e
 
 # 10분마다 스토리지 기록 남기기
 */10 * * * * (echo -n $(date)'@@@@@' && df -h | grep /dev/ ) >> ~/storage.log
+```
+
+## root 권한
+
+- `sudo crontab` 사용
+- root user의 profile로 실행하게 되는 것이므로 **실제 실행될 커맨드에는 sudo를 붙이지 않아도 됨**
+- 단, 환경설정은 root 기반으로 미리 되어있어야 함
+  - e.g. awscli를 크론탭 내부에서 사용시,  `sudo aws configure`로 사전설정이 되어 있어야 함. `aws configure`은 안됨.
+
+```sh
+# 권장: sudo crontab -e 실행 후 다음과 같이 sudo 없이 기술
+* * * * * command
+```
+
+```sh
+# 비권장: crontab -e 실행 후 다음과 같이 sudo와 기술
+# 이러면 커맨드 실행시 패스워드 입력을 요구받아, 로직이 중단될 수 있음
+* * * * * sudo command
 ```
