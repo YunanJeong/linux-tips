@@ -29,9 +29,9 @@ source ~/.bashrc
 
 # 입력기 설정창 GUI 열기 (ibus-daemon -drx 사전실행 필요)
 ibus-setup
-# 입력기 설정 GUI - Input Method - Hangul 찾아서 추가
+# 입력기 설정 GUI - Input Method - Hangul(또는 Korean, Korean 101/104) 찾아서 추가
   # 전환 키도 설정가능한데 default인 슈퍼스페이스(shift+space)가 리눅스에서 가장 보편적
-  # 한/영키는 안먹힐 수 있음
+  # 한/영키는 Ubuntu OS 및 키보드 하드웨어 스펙에 따라서도 다를 수 있음
 
 # 엣지브라우저 실행 => chatgpt 접속  (ibus-daemon -drx 사전실행 필요)
 microsoft-edge
