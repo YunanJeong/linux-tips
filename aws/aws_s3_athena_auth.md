@@ -71,7 +71,8 @@
         {
             "Effect": "Allow",
             "Action": [
-                "glue:*"
+                "glue:Get*",
+                "glue:List*"
             ],
             "Resource": [
                 "arn:aws:glue:ap-northeast-2:0000my-account-id0000:database/my_db_name",
