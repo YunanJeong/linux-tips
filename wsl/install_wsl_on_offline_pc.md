@@ -46,3 +46,9 @@ msi 파일 실행 후 설치 진행
 ```
 "Add-AppxPackage .\app_name.appx
 ```
+----------------------------------------------------
+Windows11의 경우, 공홈을 따라하면 커널 설치에서 막힌다.
+
+공식 깃허브의 Release 페이지 가서 wsl msi파일을 받아 설치한다.
+https://github.com/microsoft/WSL/releases
+
