@@ -14,10 +14,13 @@ powershell에서 wsl status 명령어 수행
 라는 메시지가 뜨는데, 해당 명령어는 온라인 용이므로 패스
 
 ```sh
-#우선 로컬 환경에서 WSL 및 VM 환경 활성화를 수동으로 해줘야한다
+# Poweshell에서 아래 커맨드 실행하여 로컬 환경에서 WSL 및 VM 환경 활성화를 수동으로 해줘야한다
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-# 이후 한번 PC 재부팅
+
+# WSL 및 VM 환경 활성화는 윈도메뉴-Windows 기능 켜기/끄기로 진입하여 UI에서도 설정가능하다.
+
+# 설정 완료 후 한번 PC 재부팅 필수
 
 ```
 
@@ -32,6 +35,12 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 
 원래는 업데이트도 간단한 명령어로 가능하지만, 오프라인 환경이므로 설치파일을 별도 받아줘야 한다.
 
+
+msi 파일 실행 후 설치 진행
+만약 This update only applies to machines with the Windows Subsystem for Linux 라는 메시지가 뜬다면 WSL 및 VM 활성화가 제대로 적용되지 않은 것이다.
+  - 재부팅을 안했다면 재부팅 진행
+  - 만약 그래도 반복되면 WSL 및 VM를 비활성화하고 재부팅, 활성화하고 재부팅을 반복 후 재설치 진행
+  
 
 
 ```
