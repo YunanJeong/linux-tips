@@ -15,7 +15,16 @@ WSL에서 안 쓰는 스토리지 반환하도록 최적화
 wsl --shutdown
 
 # 최적화("Windows 기능 켜기/끄기"에서 Hyper-V 활성화 상태여야 명령어 사용가능)
-Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
+Optimize-VHD -Path {ext4.vhdx파일 절대경로}\ext4.vhdx -Mode Full
+
+# Hyper-V 사용불가시
+wsl --shutdown
+diskpart
+select vdisk file="{ext4.vhdx파일 절대경로}\ext4.vhdx"
+attach vdisk readonly
+compact vdisk
+detach vdisk
+exit
 ```
 
 - ext4.vhdx 파일 위치 찾는 법
@@ -23,6 +32,14 @@ Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
   - `컴퓨터\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\`
   - 한 단계 더 하위경로인 중괄호 {}로 구성된 폴더로 진입하면 BasePath를 확인할 수 있다.
   - [공홈](https://learn.microsoft.com/ko-kr/windows/wsl/disk-space)에 따르면 CLI 커맨드로도 찾을 수 있다.
+
+- 다른방법
+  - Hyper-V 활성화는 재부팅도 필요하고, 윈도우Home에선 기능 자체가 없다.
+  - 다음 방법으로 대체할 수 있음
+
+```
+
+```
 
 ## 해결2
 
