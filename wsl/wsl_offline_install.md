@@ -25,13 +25,13 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
   - https://github.com/microsoft/WSL/releases
 - 공홈에서 OS 배포판(*.AppxBundle)
   - https://learn.microsoft.com/ko-kr/windows/wsl/install-manual#downloading-distributions
-- 폐쇄망이므로 신규 OS 배포판을 설치하는 대신 기존 사용중이던 배포판을 마이그레이션 하는 것도 좋음
+- 폐쇄망이므로 신규OS를 설치하는 대신, 기존 사용중이던 or 초기 셋업된 개발용 배포판을 마이그레이션하는 것도 좋음
 
 ```powershell
-# 현재 배포된 WSL의 이름 확인
+# 인터넷 PC에 배포된 WSL의 이름 확인
 wsl -l -v
 
-# 기존 PC에서 배포판 export
+# 인터넷 PC에서 배포판 export
 # wsl --export {WSL 배포 이름} {추출 파일명.tar(경로포함)}
 wsl --export my-ubuntu F:\wsl\Ubuntu.tar
 
