@@ -26,6 +26,8 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 - 공홈에서 OS 배포판(*.AppxBundle)
   - https://learn.microsoft.com/ko-kr/windows/wsl/install-manual#downloading-distributions
 - 폐쇄망이므로 신규OS를 설치하는 대신, 기존 사용중이던 or 초기 셋업된 개발용 배포판을 마이그레이션하는 것도 좋음
+- vscode 연동 필요시
+  - 인터넷 환경의 WSL 내부에서 `code .`를 1회라도 실행시켜야 vscode-server가 인터넷으로 설치됨. 오프라인 설치 미지원이므로 초기 셋업 배포판 만들시 참고.
 
 ```powershell
 # 인터넷 PC에 배포된 WSL의 이름 확인
