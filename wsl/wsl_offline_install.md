@@ -25,9 +25,9 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
   - https://github.com/microsoft/WSL/releases
 - 공홈에서 OS 배포판(*.AppxBundle)
   - https://learn.microsoft.com/ko-kr/windows/wsl/install-manual#downloading-distributions
+
+## OS 배포판 설치하기 전 참고
 - 폐쇄망이므로 신규OS를 설치하는 대신, 기존 사용중이던 or 초기 셋업된 개발용 배포판을 마이그레이션하는 것도 좋음
-- vscode 연동 필요시
-  - 인터넷 환경의 WSL 내부에서 `code .`를 1회라도 실행시켜야 vscode-server가 인터넷으로 설치됨. 오프라인 설치 미지원이므로 초기 셋업 배포판 만들시 참고.
 
 ```powershell
 # 인터넷 PC에 배포된 WSL의 이름 확인
@@ -37,9 +37,19 @@ wsl -l -v
 # wsl --export {WSL 배포 이름} {추출 파일명.tar(경로포함)}
 wsl --export my-ubuntu F:\wsl\Ubuntu.tar
 
-###
+########################################
 
 # 폐쇄망 PC에서 import
 # wsl --import {신규 WSL 배포이름} {신규 ext4.vhdx 저장경로} {추출 파일명.tar(경로포함)}
 wsl --import my-ubuntu F:\wsl\Ubuntu F:\wsl\Ubuntu.tar
 ```
+
+### vscode 연동 필요시
+
+- vscode-server
+  - 오프라인 설치 미지원
+  - **인터넷 환경의 WSL 내부에서 `code .`를 1회라도 실행해야 vscode-server가 인터넷을 통해 설치됨**. vscode-server가 설치된 OS를 export한 후 폐쇄망에서 import해야 함.
+- vscode extension
+  - 인터넷 다운로드: vscode의 확장탭에서 특정 extension 오른쪽 클릭 - vsix 다운로드(또는 특정 버전)
+  - 폐쇄망 설치: vscode의 확장탭 진입 후 확장창 우측 상단 (...) 메뉴 진입하여 "install from visx ..." 선택
+- vscode, vscode-server, vscode-extension 모두 버전 호환성이 매우 중요하니, 인터넷 PC에 실제 세팅된 환경을 기반을 참고해야 함
