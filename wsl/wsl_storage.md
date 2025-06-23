@@ -14,7 +14,7 @@ WSL에서 안 쓰는 스토리지 반환하도록 최적화
 # wsl 종료
 wsl --shutdown
 
-# 최적화 명령어
+# 최적화("Windows 기능 켜기/끄기"에서 Hyper-V 활성화 상태여야 명령어 사용가능)
 Optimize-VHD -Path {ext4.vhdx파일 절대경로} -Mode Full
 ```
 
