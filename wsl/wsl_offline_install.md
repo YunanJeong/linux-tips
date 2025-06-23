@@ -14,7 +14,7 @@
 # 로컬 윈도우 환경에서 WSL 및 VM 활성화(관리자 권한 Powershell)
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-# WSL 및 VM 환경 활성화는 윈도메뉴-Windows 기능 켜기/끄기로 진입하여 UI에서도 설정가능하다.
+# WSL 및 VM 환경 활성화는 윈도메뉴-Windows 기능 켜기/끄기로 진입하여 UI에서도 설정가능하다.(VM만 활성화돼있어도 WSL2설치 및 사용엔 문제없음)
 
 # 설정 완료 후 PC 재부팅 필수
 ```
