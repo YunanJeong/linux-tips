@@ -21,13 +21,12 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 
 - 아래 파일들을 다운받아서 폐쇄망으로 이동 후 설치 진행
 - 복잡한 절차없이 더블클릭 실행으로 설치가 깔끔하게 됨
-- `공식 깃허브의 Release 페이지에서 wsl설치파일(*.msi)`
-  - https://github.com/microsoft/WSL/releases
-- 공홈에서 OS 배포판(*.AppxBundle)
-  - https://learn.microsoft.com/ko-kr/windows/wsl/install-manual#downloading-distributions
+  - [공식 깃허브의 Release 페이지](https://github.com/microsoft/WSL/releases)에서 wsl설치파일(*.msi)
+  - [MS공홈](https://learn.microsoft.com/ko-kr/windows/wsl/install-manual#downloading-distributions)에서 OS 배포판(*.AppxBundle)
 
-## OS 배포판 설치하기 전 참고
-- 폐쇄망이므로 신규OS를 설치하는 대신, 기존 사용중이던 or 초기 셋업된 개발용 배포판을 마이그레이션하는 것도 좋음
+## 신규OS 대신 커스텀 배포판 만들어서 마이그레이션 (권장)
+
+- 폐쇄망에 신규OS 배포판을 설치하기보다는, 인터넷 환경에서 미리 필요한 툴을 설치한 후 폐쇄망으로 마이그레이션하는 것이 편함
 
 ```powershell
 # 인터넷 PC에 배포된 WSL의 이름 확인
