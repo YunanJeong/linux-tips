@@ -74,3 +74,29 @@ export XAUTHORITY=$HOME/.Xauthority
 - 원격 서버 머신의 엣지브라우저와 로컬 머신간 클립보드 공유가 안됨
 - 여러가지 대안 방법이 있겠으나 X forwarding 방식에서 컨씨븨를 편하게 쓸 방법은 없어보임. MobaXterm 설정도 바꿔야하고.
 - 현실적으로 그냥 구글 문서 같은거 하나 엣지브라우저탭에 추가해놓고 쓰는게 나을듯?
+
+### 바로가기(shortcut) 생성시 팁
+
+- 많은 ssh 접속 도구에서 특정 커넥션에 대한 바로가기를 만들 수 있고, 접속시 최초 실행할 명령어를 지정할 수 있다.
+- 다음 스크립트가 EC2 서버 내에서 최초실행되도록 설정해두자.
+  - 이러한 최초실행 커맨드는 `.bashrc`가 적용되지 전 환경일 수 있다.
+  - 따라서 한글입력기 ibus와 브라우저 edge가 의도치 않게 동작할 수 있기 때문에 개별 스크립트를 사용
+  - 이후엔 로컬 PC에서 바로가기를 누르면 엣지브라우저 특정웹사이트(chatgpt)로 접속되고, 창을 끄면 ssh 세션도 자동으로 해제된다.
+
+```sh
+# mobaxterm_cmd.sh
+
+export XAUTHORITY=$HOME/.Xauthority
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+
+# 한글입력 백그라운드 실행
+ibus-daemon -drx &
+
+# 엣지실행(포그라운드, 세션 점유)
+microsoft-edge https://chatgpt.com
+
+# 마지막에 ibus-daemon을 강종해줘야 세션이 정상종료 됨
+pkill ibus-daemon
+```
