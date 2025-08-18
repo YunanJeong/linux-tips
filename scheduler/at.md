@@ -34,10 +34,10 @@ echo "sudo mycommand" | at 14:30
 
 ```sh
 # 특정 경로에서 실행 필요시
-echo " cd /home/myuser/project/ &&  myrootcommand  " 
+echo " cd /home/myuser/project/ &&  mycommand  " | at now
 
-# 특정 경로에서 순차대로 여러 명령어 실행시 (OS마다 다르지만 보통 myrootcommand2에도 해당 경로 적용됨)
-echo " cd /home/myuser/project/ &&  myrootcommand1 ; myrootcommand2 " 
+# 특정 경로에서 순차대로 여러 명령어 실행시 (OS마다 다르지만 보통 mycommand2에도 해당 경로 적용됨)
+echo " cd /home/myuser/project/ &&  mycommand1 ; mycommand2 "  | at now
 ```
 
 ## 백그라운드 실행용으로 사용
@@ -47,4 +47,18 @@ echo " cd /home/myuser/project/ &&  myrootcommand1 ; myrootcommand2 "
 
 ```sh
 echo "mycommand" | at now
+```
+
+## 여러 명령어 실행
+
+```sh
+# echo
+echo "cmd1 ; cmd2 ; cmd3" | at now
+
+# here-doc
+at now <<EOF
+cmd1
+cmd2
+cmd3
+EOF
 ```
