@@ -17,6 +17,7 @@ echo "mycommand" | at 2:30 pm
 echo "mycommand" | at now + 1 hour
 echo "mycommand" | at now + 2 days
 echo "mycommand" | at now + 10 minutes
+echo "mycommand" | at 08:00 tomorrow
 ```
 
 ## Root 권한
