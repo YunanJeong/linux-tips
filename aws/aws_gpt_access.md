@@ -6,10 +6,10 @@
 
 ```sh
 # 엣지 브라우저 공식 설치 파일
-wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_135.0.3179.73-1_amd64.deb
+wget https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_142.0.3595.90-1_amd64.deb
 
 # 설치
-sudo apt install ./microsoft-edge-stable_135.0.3179.73-1_amd64.deb
+sudo apt install ./microsoft-edge-stable_142.0.3595.90-1_amd64.deb
 
 # GUI(브라우저)에서 한국어 출력 지원
 sudo apt update
@@ -33,8 +33,8 @@ ibus-setup
   # 전환 키도 설정가능한데 default인 슈퍼스페이스(shift+space)가 리눅스에서 가장 보편적
   # 한/영키는 Ubuntu OS 및 키보드 하드웨어 스펙에 따라서도 다를 수 있음
 
-# 엣지브라우저 실행 => chatgpt 접속  (ibus-daemon -drx 사전실행 필요)
-microsoft-edge
+# 엣지브라우저 실행 테스트  (ibus-daemon -drx 사전실행 필요)
+microsoft-edge google.com
 ```
 
 ## 이슈 정리
@@ -69,12 +69,6 @@ export XAUTHORITY=$HOME/.Xauthority
 - `Oops`라면서 나중에 로그인 시도하라고 함
 - 시간대를 변경하거나, Edge 브라우저를 사용하면 이 문제 회피
 
-### X forwarding 연결시 클립보드 문제
-
-- 원격 서버 머신의 엣지브라우저와 로컬 머신간 클립보드 공유가 안됨
-- 여러가지 대안 방법이 있겠으나 X forwarding 방식에서 컨씨븨를 편하게 쓸 방법은 없어보임. MobaXterm 설정도 바꿔야하고.
-- 현실적으로 그냥 구글 문서 같은거 하나 엣지브라우저탭에 추가해놓고 쓰는게 나을듯?
-
 ### 바로가기(shortcut) 생성시 팁
 
 - 많은 ssh 접속 도구에서 특정 커넥션에 대한 바로가기를 만들 수 있고, 접속시 최초 실행할 명령어를 지정할 수 있다.
@@ -91,12 +85,17 @@ export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 
-# 한글입력 백그라운드 실행
-ibus-daemon -drx &
+
+# -d: 데몬실행 -r: 기존프로세스 있으면 끄고 재실행 -x: x11기반 앱 호환성지원
+ibus-daemon -drx
+
+# ibus 준비될 때까지 대기 (ibus-daemon의 비동기동작으로 인해 후속 커맨드보다 늦게 활성화될 수 있음)
+for i in {1..50}; do
+  ibus engine >/dev/null 2>&1 && break
+  sleep 0.05
+done
 
 # 엣지실행(포그라운드, 세션 점유)
 microsoft-edge https://chatgpt.com
 
-# 마지막에 ibus-daemon을 강종해줘야 세션이 정상종료 됨
-pkill ibus-daemon
 ```
