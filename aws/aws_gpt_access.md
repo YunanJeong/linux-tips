@@ -1,4 +1,4 @@
-# AWS EC2에서 CHATGPT 서비스 접속
+# AWS EC2 Ubuntu 에서 CHATGPT 서비스 접속
 
 - OS는 ubuntu24이고, MobaXterm으로 접속
 
@@ -36,6 +36,30 @@ ibus-setup
 # 엣지브라우저 실행 테스트  (ibus-daemon -drx 사전실행 필요)
 microsoft-edge google.com
 ```
+
+## ibus-setup 한글 입력기 설정방법 및 주의사항
+
+### 1. 한글 입력기 별도 설치 (사실상 표준)
+
+- `sudo apt install -y ibus-hangul`
+
+### 2. 입력기 추가
+
+- `ibus-setup` 실행 → Input Method 진입  
+- Add → Korean(Hangul, 태극 아이콘) 선택하여 추가
+  - 기본 제공된 입력기인 Korean, Korean 101/104 는 한글입력에 사용 불가 수준
+
+### 3. 한/영 전환키 설정
+
+- Input Method에서 Hangul 선택 → Preferences 진입  
+- Hangul Toggle Key 설정  
+  - Hangul 입력기 내부에 한글/영어가 함께 있는 구조라 내부용 토글키가 존재함  
+- General → Keyboard Shortcuts → Next input method에서 설정한 전역 입력기 전환키와 절대 겹치면 안 됨  
+  - Next input method = 여러 입력기 간 전환  
+  - Hangul Toggle Key = Hangul 입력기 내부 한/영 전환  
+  - 전역 전환키가 겹치면 Hangul 내부 한/영 전환이 안 먹히는 문제가 발생할 수 있음
+  - 전역 전환키와 English 입력기는 비활성화 해놓는게 더 편할 수 있음
+  - 한영 전환 토글키는 Shift+Space 등 권장. "한/영"키, Super Space, Alt 키 등은 환경에 따라 사용불가할 수 있음
 
 ## 이슈 정리
 
@@ -86,8 +110,8 @@ export QT_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 
 
-# -d: 데몬실행 -r: 기존프로세스 있으면 끄고 재실행 -x: x11기반 앱 호환성지원
-ibus-daemon -drx
+# -d: 데몬실행 -r: 기존프로세스 있으면 끄고 재실행 -x: x11기반 앱 호환성지원  &: -d옵션이 일부환경(시작스크립트)에서 적용안되어 강제 백그라운드로 변경
+ibus-daemon -drx  &
 
 # ibus 준비될 때까지 대기 (ibus-daemon의 비동기동작으로 인해 후속 커맨드보다 늦게 활성화될 수 있음)
 for i in {1..50}; do
