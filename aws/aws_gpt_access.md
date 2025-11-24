@@ -43,7 +43,7 @@ microsoft-edge google.com
 
 - `sudo apt install -y ibus-hangul`
 
-### 2. 입력기 추가
+### 2. 입력기 적용
 
 - `ibus-setup` 실행 → Input Method 진입  
 - Add → Korean(Hangul, 태극 아이콘) 선택하여 추가
@@ -55,8 +55,8 @@ microsoft-edge google.com
 - Hangul Toggle Key 설정  
   - Hangul 입력기 내부에 한글/영어가 함께 있는 구조라 내부용 토글키가 존재함  
 - General → Keyboard Shortcuts → Next input method에서 설정한 전역 입력기 전환키와 절대 겹치면 안 됨  
-  - Next input method = 여러 입력기 간 전환  
-  - Hangul Toggle Key = Hangul 입력기 내부 한/영 전환  
+  - Next input method = 여러 입력기 간 전환하는 전역 전환키
+  - Hangul Toggle Key = Hangul 입력기 내부 한/영 전환키
   - 전역 전환키가 겹치면 Hangul 내부 한/영 전환이 안 먹히는 문제가 발생할 수 있음
   - 전역 전환키와 English 입력기는 비활성화 해놓는게 더 편할 수 있음
   - 한영 전환 토글키는 Shift+Space 등 권장. "한/영"키, Super Space, Alt 키 등은 환경에 따라 사용불가할 수 있음
