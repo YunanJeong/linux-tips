@@ -136,6 +136,11 @@ jinfo -flags {jps로 확인한 pid}
 # GCLocker 관련옵션: https://discuss.elastic.co/t/gclocker-too-often-allocating-256-words/323769/2
 # GCLocker 장기화로 인한 OOM 방지(하단 항목 참고)
 -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100
+
+
+# 최대 가용량 대비 힙 비율 설정 # -Xms, -Xmx가 함께 지정되면 무시됨
+# 클라우드 or 컨테이너 기반 환경에서 스케일 조정시 매우 유용하다!! 
+-XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=50
 ```
 
 ### GCLocker 관련 OOM에 대응
