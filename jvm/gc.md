@@ -138,8 +138,8 @@ jinfo -flags {jps로 확인한 pid}
 -XX:+UnlockDiagnosticVMOptions -XX:GCLockerRetryAllocationCount=100
 
 
-# 최대 가용량 대비 힙 비율 설정 # -Xms, -Xmx가 함께 지정되면 무시됨
-# 클라우드 or 컨테이너 기반 환경에서 스케일 조정시 매우 유용하다!! 
+# 최대 가용량 대비 힙 비율 설정 # -Xms, -Xmx가 함께 지정되면 비율설정은 무시됨
+# 클라우드 or 컨테이너 기반 환경에서 스케일 조정시 매우 유용하다!!  (requests.limits.memory, 없으면 노드 사양 기준)
 -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=50
 ```
 
