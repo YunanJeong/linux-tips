@@ -15,8 +15,10 @@ sudo nohup mycommand &
 
 ## 백그라운드 스케줄링 crontab과 at
 
-
-
+```sh
+# at 예시
+echo "cmd1 ; cmd2 ; cmd3" | sudo at now
+```
 
 ## Docker 백그라운드
 
