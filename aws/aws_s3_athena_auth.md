@@ -32,7 +32,8 @@
                 "athena:StopQueryExecution",
                 "athena:BatchGetNamedQuery",
                 "athena:ListTableMetadata",
-                "athena:BatchGetQueryExecution"
+                "athena:BatchGetQueryExecution",
+                "athena:ListDataCatalogs"
             ],
             "Resource": "*"
         },
