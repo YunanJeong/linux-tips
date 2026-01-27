@@ -55,7 +55,7 @@ jq -c 'select(.DateTime >= "2025-06-10T00:00:00+00:00" and .DateTime <= "2025-06
 - 원본 그대로 문자열 비교는 불가하므로, 동일포맷의 문자열로 일원화하자.
 - timestamp 변환하는 것은 다소 애매하다.
   - jq에서 DateTime을 timestamp로 변환하는 함수(fromdateiso8601)가 제공되지만, 이런 변환은 버전마다 동작이 다르거나, 소수점 단위 처리에서 오차 발생하는 등 세부적인 예외사례가 있으므로 정밀한 사전테스트가 필요
--  jq Date and Time Functions
+- jq Date and Time Functions
   - fromdateiso8601: Parses an ISO 8601 string into a Unix timestamp.
   - todateiso8601: Converts a Unix timestamp into an ISO 8601 string.
   - fromdate: Shorthand for fromdateiso8601.
