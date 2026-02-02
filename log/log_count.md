@@ -24,6 +24,18 @@ find . -name "*.log" -exec cat {} + > merged.txt
 diff A.log B.log | grep '^[<>]' | sed 's/^[<>] //'
 ```
 
+## sort -u 시 parallel 적극 사용
+
+- default는 단일코어
+- 정렬/중복제거시 멀티코어 개수 지정
+- 순서유지/데이터 꼬임 방지 등 멀티프로세싱에 의한 데이터 이슈를 내부적으로 방지해줌
+  - 내부 Merge Sort 알고리즘+멀티스레딩
+
+```sh
+sort -u --parallel=(코어갯수) 파일명.json
+cat 파일명.json | jq -c | sort -u --parallel=3
+```
+
 ## jq 로 json 처리
 
 ```sh
@@ -34,6 +46,18 @@ jq 'select(.컬럼명 == "값")' 파일명.json
 jq 'fromjson' 파일명.json
 cat 파일명.json | jq 'fromjson'
 ```
+
+- cat 출력 후 파이프라인(| jq)처리는 비효율적이므로 대용량 파일에선 습관적으로 쓰지 않도록 주의
+
+### jq 멀티프로세싱
+
+- jq는 단일코어만 지원
+- 멀티프로세싱은 별도 구현 필요
+- 대용량 단일 파일 처리시 GNU Parallel(apt install parallel) 사용가능
+  - "대용량 단일 파일에서 xargs는 사용금지"
+    - => 순서보장 불가, 데이터 손상 위험, I/O 비효율
+- 여러 파일로 나눌 수 있을 경우
+  - 파일 나누고 jq 여러 개 실행, xargs, snakemake, or 각종 멀티프로세싱 도구 사용
 
 ### 시간 범위 
 
@@ -70,7 +94,7 @@ jq -c 'select(.DateTime >= "2025-06-10T00:00:00+00:00" and .DateTime <= "2025-06
 ```sh
 # 시간필드 값에서 Z표기를 +00:00으로 일괄 변환 후 시간범위 추출
 # 쿼리 조건문에서만 변환하여 인식하는 것이고, 출력물은 그대로이므로 사용가능
-cat logs.json | jq -c 'select((.DateTime | sub("Z$"; "+00:00")) >= "2026-01-21T05:00:00.000+00:00" and (.DateTime | sub("Z$"; "+00:00")) <= "2026-01-26T00:00:00.000+00:00")'
+jq -c 'select((.DateTime | sub("Z$"; "+00:00")) >= "2026-01-21T05:00:00.000+00:00" and (.DateTime | sub("Z$"; "+00:00")) <= "2026-01-26T00:00:00.000+00:00")' logs.json
 ```
 
 - 변환 테스트
