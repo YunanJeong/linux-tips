@@ -91,9 +91,11 @@ parallel -a 파일명.json --pipepart -k --block=128M --jobs=3 \
 # 대상 명령어 이스케이프 주의 (",$,|,`,\,! 등)
 parallel -a 파일명.json --pipepart -k --block=128M --job=3 \
 "jq -c 'message | fromjson | select 'select(.status == \"200\")' "
+```
 
-# 대상 명령어가 복잡할 경우 환경변수 활용
-JQ_QUERY='.message | fromjson | select'
+```sh
+# (제일편함)대상 명령어가 복잡하여 이스케이프처리가 힘든 경우 환경변수 활용
+JQ_QUERY='.message | fromjson | select(.status == "200")'
 parallel -a 파일명.json --pipepart -k --block=128M --job=3 \
 jq -c '$JQ_QUERY'
 ```
