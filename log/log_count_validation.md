@@ -1,4 +1,4 @@
-# Log Count
+# Log Count & Validation
 
 ```sh
 # 파일 라인 수 출력
@@ -22,6 +22,15 @@ find . -name "*.log" -exec cat {} + > merged.txt
 
 # diff 결과물에서 내용만 추출
 diff A.log B.log | grep '^[<>]' | sed 's/^[<>] //'
+
+
+# diff는 메모리를 많이 먹으므로 아래 대안이 있음
+
+# 해시로 비교(대용량 파일도 금방처리하고 1비트만 달라도 다른값출력)
+md5sum 파일명.json
+
+# 두 파일간 첫번쨰로 다른 라인 찾기
+cmp A.log B.log
 ```
 
 ## sort -u 시 parallel 적극 사용
@@ -32,7 +41,7 @@ diff A.log B.log | grep '^[<>]' | sed 's/^[<>] //'
   - 내부 Merge Sort 알고리즘+멀티스레딩
 
 ```sh
-sort -u --parallel=(코어갯수) 파일명.json
+sort -u --parallel=[코어갯수] 파일명.json
 cat 파일명.json | jq -c | sort -u --parallel=3
 ```
 
@@ -55,9 +64,39 @@ cat 파일명.json | jq 'fromjson'
 - 멀티프로세싱은 별도 구현 필요
 - 대용량 단일 파일 처리시 GNU Parallel(apt install parallel) 사용가능
   - "대용량 단일 파일에서 xargs는 사용금지"
-    - => 순서보장 불가, 데이터 손상 위험, I/O 비효율
+    - => 순서보장 불가, 데이터 손상 위험, I/O 비효율(단일 파이프)
 - 여러 파일로 나눌 수 있을 경우
   - 파일 나누고 jq 여러 개 실행, xargs, snakemake, or 각종 멀티프로세싱 도구 사용
+- parallel
+  * --pipepart : 파일을 물리적으로 쪼개지 않고 오프셋을 계산해 여러 프로세스가 단일 파일의 여러 위치를 동시에 찍어서 읽어 처리 속도를 극대화(멀티파이프, xargs가 이게 안됨)
+  * -a [파일명] : 병렬 처리할 입력 대상 파일을 직접 지정
+  * --block [블록용량표기] : 한 번에 처리할 데이터 덩어리 크기
+    * default 1M인데, 비효율적이므로 10~100M으로 설정필요
+    * 100MB 내외가 I/O 효율 가장 좋음
+  * -k (--keep-order) : 결과 출력 시 원본 데이터의 순서를 그대로 유지
+  * -j 8 (--jobs 8) : 멀티코어 개수 지정
+    * 0은 모든 코어 사용
+    * 50% 등 퍼센트 지정 가능
+    * default는 전체가용코어
+
+```sh
+# parallel -a [입력파일] --pipepart -k -j=[코어갯수] --block=[블록크기] "대상명령어"
+# 대용량 단일 파일 parallel로 jq 처리
+parallel -a 파일명.json --pipepart -k --block=128M --jobs=3 jq -c '.'
+
+# 대상 명령어는 parallel에 인자로 들어가므로 따옴표 씌워주는 것이 안전
+parallel -a 파일명.json --pipepart -k --block=128M --jobs=3 \
+"jq -c '.message | fromjson' "
+
+# 대상 명령어 이스케이프 주의 (",$,|,`,\,! 등)
+parallel -a 파일명.json --pipepart -k --block=128M --job=3 \
+"jq -c 'message | fromjson | select 'select(.status == \"200\")' "
+
+# 대상 명령어가 복잡할 경우 환경변수 활용
+JQ_QUERY='.message | fromjson | select'
+parallel -a 파일명.json --pipepart -k --block=128M --job=3 \
+jq -c '$JQ_QUERY'
+```
 
 ### 시간 범위 
 
