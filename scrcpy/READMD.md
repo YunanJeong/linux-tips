@@ -81,7 +81,7 @@ cd $env:USERPROFILE\scrcpy-win64-v3.3.4
 
 # PC의 adb RSA키 삭제
 # 폰에서 항시 허용하더라도, 향후 재연결시 새 RSA키 생성하여 새 인증받도록 함 (내 PC도 믿기힘들면 사용)
-Remove-Item -Path "$env:USERPROFILE\.android\adbkey*" -Force
+Remove-Item -Force -Path "$env:USERPROFILE\.android\adbkey*" 
 ```
 
 ### 사용 후
@@ -111,9 +111,9 @@ Remove-Item -Path "$env:USERPROFILE\.android\adbkey*" -Force
   - OS차원의 파워쉘 정책 변경없이, 해당 명령어에 대해서만 제한 우회하는 방식
   
 ```sh
-# 바로가기 대상용 원라이너 (따옴표안 이스케이프 주의)
+# 바로가기 대상용 원라이너 (이스케이프 주의, 260자 제한)
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "[파워쉘_명령어]"
 
 # example
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "cd $env:USERPROFILE\scrcpy-win64-v3.3.4; .\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/200; .\adb kill-server; Remove-Item -Path $env:USERPROFILE\.android\adbkey* -Force"
+powershell.exe -NoP -ExecutionPolicy Bypass -C "cd $env:USERPROFILE\scrcpy-win64-v3.3.4; .\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/330 --keyboard=uhid; .\adb kill-server; rm -Fo -Path $env:USERPROFILE\.android\adbkey* "
 ```
