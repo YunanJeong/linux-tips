@@ -33,7 +33,7 @@
   - 항상 허용에 체크하지말 것(중요)
     - 항상 허용 체크 시: 폰이 PC의 RSA 공개키를 저장하여, 이후 재연결 시 자동 인증됨
     - 일회성 허용: 해당 세션에만 인증되고, 공개키가 저장되지 않아 다음 연결 시 다시 인증 필요
-    - 매 세션마다 명시적 허용을 하면, 비인증 PC의 접근을 원천 차단할 수 있음
+    - 매 세션마다 명시적 허용시 비인증 PC의 접근을 원천 차단 가능
   - 팝업을 끈 경우, 케이블을 재연결하거나, 상단바 알림 중 "USB 설정"에서 USB 사용 용도를 바꾸면 재인식된다. (최종적으로, USB사용용도는 충전모드로만 해둬도됨)
 
 ### scrcpy 실행
@@ -58,17 +58,17 @@ scrcpy --keyboard=uhid
 - 커스텀 스크립트 만들어서 실행도 가능
 
 ```ps1
-# 로컬에서 만든 파워쉘스크립트는 실행 허용
+# 로컬에서 만든 파워쉘스크립트는 실행 허용하도록 윈도 정책 변경
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-# 커스텀 스크립트실행
-./my-custom.ps1
+# 커스텀 스크립트 실행
+./scrcpy_pivot.ps1
 ```
 
 ```ps1
-# custom script example
+# example: scrcpy_pivot.ps1
 cd C:\my-scrcpy-path\scrcpy-win64-v3.3.4
-.\scrcpy.exe --new-display=1920x1080/200 --keyboard=uhid
+.\scrcpy.exe --new-display=1080x1920/200 --keyboard=uhid
 .\adb kill-server
 ```
 
