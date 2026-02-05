@@ -114,6 +114,6 @@ Remove-Item -Force -Path "$env:USERPROFILE\.android\adbkey*"
 # 바로가기 대상용 원라이너 (이스케이프 주의, 260자 제한)
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "[파워쉘_명령어]"
 
-# example
-powershell.exe -NoP -ExecutionPolicy Bypass -C "cd $env:USERPROFILE\scrcpy-win64-v3.3.4; .\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/330 --keyboard=uhid; .\adb kill-server; rm -Fo -Path $env:USERPROFILE\.android\adbkey* "
+# 대상 example(cd 대신 바로가기의 "속성>시작위치" 활용하여 글자수 줄이기)
+powershell.exe -NoP -ExecutionPolicy Bypass -C ".\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/330 --keyboard=uhid; .\adb kill-server; rm -Fo -Path $env:USERPROFILE\.android\adbkey* "
 ```
