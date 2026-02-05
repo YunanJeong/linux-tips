@@ -70,6 +70,9 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 # 실행파일 경로
 cd $env:USERPROFILE\scrcpy-win64-v3.3.4
 
+# 폰의 디버깅 허용 대기
+.\adb wait-for-device
+
 # 커스텀옵션실행
 .\scrcpy.exe --new-display=1080x1920/200 --keyboard=uhid
 
