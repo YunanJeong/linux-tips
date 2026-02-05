@@ -66,9 +66,19 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ```ps1
 # example: scrcpy_pivot.ps1
+
+# 실행파일 경로
 cd $env:USERPROFILE\scrcpy-win64-v3.3.4
+
+# 커스텀옵션실행
 .\scrcpy.exe --new-display=1080x1920/200 --keyboard=uhid
+
+# 사용끝나면 adb도 종료
 .\adb kill-server
+
+# PC의 adb RSA키 삭제
+# 폰에서 항시 허용하더라도, 향후 재연결시 새 RSA키 생성하여 새 인증받도록 함 (내 PC도 믿기힘들면 사용)
+Remove-Item -Path "$env:USERPROFILE\.android\adbkey*" -Force
 ```
 
 ### 사용 후
