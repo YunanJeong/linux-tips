@@ -105,12 +105,15 @@ Remove-Item -Path "$env:USERPROFILE\.android\adbkey*" -Force
 - 개별 PC들에 대한 디버깅 권한 관리
   - 폰에서 `개발자 옵션-USB 디버깅 권한 승인 취소`에서 일괄 삭제 가능(저장해놓은 RSA키들 일괄 삭제)
   - 참고: PC의 RSA키는 adb 최초실행시 랜덤생성되며 `%USERPROFILE%\.android` 경로에 저장됨. 갱신 필요시 여기 있는 키파일을 삭제하고 adb 재실행하면 됨
-- ps1스크립트 대신 바로가기 생성
-  - ps1은 보안이슈 타겟이 되기 쉽고 사용도 불편 
-  - "바로가기"생성 후 "속성"-"대상"에서 아래와 같이 One liner로 파워쉘을 지정해주자
-  - 파워쉘에 대한 OS차원의 정책 변경도 필요 없음
-  - `powershell.exe -NoProfile -ExecutionPolicy Bypass -Command` 입력 후 실행할 파워쉘명령어를 따옴표로 감싸서 입력해준다.(이스케이프 주의)
+- 스크립트(.ps1) 대신 바로가기(.lnk)로 실행하기
+  - ps1은 보안이슈 타겟이 되기 쉽고 사용도 불편
+  - "바로 가기"생성 후 `속성>대상`에서 One liner로 파워쉘을 등록해주자
+  - OS차원의 파워쉘 정책 변경없이, 해당 명령어에 대해서만 제한 우회하는 방식
+  
 ```sh
-# 바로가기 대상용 원라이너 example
+# 바로가기 대상용 원라이너 (따옴표안 이스케이프 주의)
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "[파워쉘_명령어]"
+
+# example
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "cd $env:USERPROFILE\scrcpy-win64-v3.3.4; .\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/200; .\adb kill-server; Remove-Item -Path $env:USERPROFILE\.android\adbkey* -Force"
 ```
