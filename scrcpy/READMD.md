@@ -74,7 +74,7 @@ cd $env:USERPROFILE\scrcpy-win64-v3.3.4
 .\adb wait-for-device
 
 # 커스텀옵션실행
-.\scrcpy.exe --new-display=1080x1920/200 --keyboard=uhid
+.\scrcpy.exe --new-display=1080x1920/200 --keyboard=uhid --mouse=uhid
 
 # 사용끝나면 adb도 종료
 .\adb kill-server
@@ -115,5 +115,5 @@ Remove-Item -Force -Path "$env:USERPROFILE\.android\adbkey*"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "[파워쉘_명령어]"
 
 # 대상 example(cd 대신 바로가기의 "속성>시작위치" 활용하여 글자수 줄이기)
-powershell.exe -NoP -ExecutionPolicy Bypass -C ".\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/330 --keyboard=uhid; .\adb kill-server; rm -Fo -Path $env:USERPROFILE\.android\adbkey* "
+powershell.exe -NoP -ExecutionPolicy Bypass -C ".\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/330 --keyboard=uhid --mouse=uhid; .\adb kill-server; rm -Fo -Path $env:USERPROFILE\.android\adbkey* "
 ```
