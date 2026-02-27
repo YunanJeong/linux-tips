@@ -1,0 +1,14 @@
+{
+  "privacy": {
+    "usageStatisticsEnabled": false
+  },
+  "tools": {
+    "run_shell_command": {
+      "enabled": true,
+      "allowlist": ["npm", "ls", "git", "grep", "mkdir", "mv", "rm", "npx", "vitest", "tsc"]
+    },
+    "grep_search": {
+      "max_matches_per_file": 20
+    }
+  }
+}

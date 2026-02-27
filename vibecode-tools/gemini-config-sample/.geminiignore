@@ -1,0 +1,24 @@
+# Gemini CLI가 읽지 말아야 할 파일 목록
+
+# 1. 보안 민감 파일 (절대 수집/전송 불가)
+.env*
+*.pem
+*.key
+config/secrets.json
+auth-tokens.yaml
+
+# 2. 대용량/빌드 파일 (성능 및 비용 효율)
+node_modules/
+dist/
+build/
+.next/
+.venv/
+__pycache__/
+
+# 3. 기타 소음 및 Lock 파일
+.git/
+.DS_Store
+*.log
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
