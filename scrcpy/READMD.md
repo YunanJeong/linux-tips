@@ -52,6 +52,12 @@ scrcpy --new-display=2560x1200/120
 
 # 물리키보드 활성화(한글입력시 필요)
 scrcpy --keyboard=uhid
+
+# 물리마우스 활성화(실제 마우스 연결과 유사, 화면 밖으로 못빠져나옴)
+scrcpy --keyboard=uhid
+
+# scrcpy 시작과 동시에 본체 폰의 화면 끄기(화면보호, 그냥 수동으로 끄면 srccpy도 닫히기 때문에 필요)
+scrcpy -S
 ```
 
 - 커스텀 스크립트 만들어서 실행도 가능
@@ -74,7 +80,7 @@ cd $env:USERPROFILE\scrcpy-win64-v3.3.4
 .\adb wait-for-device
 
 # 커스텀옵션실행
-.\scrcpy.exe --new-display=1080x1920/200 --keyboard=uhid --mouse=uhid
+.\scrcpy.exe --new-display=1080x1920/200 --keyboard=uhid --mouse=uhid -S
 
 # 사용끝나면 adb도 종료
 .\adb kill-server
@@ -115,5 +121,5 @@ Remove-Item -Force -Path "$env:USERPROFILE\.android\adbkey*"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "[파워쉘_명령어]"
 
 # 대상 example(cd 대신 바로가기의 "속성>시작위치" 활용하여 글자수 줄이기)
-powershell.exe -NoP -ExecutionPolicy Bypass -C ".\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/330 --keyboard=uhid --mouse=uhid; .\adb kill-server; rm -Fo -Path $env:USERPROFILE\.android\adbkey* "
+powershell.exe -NoP -ExecutionPolicy Bypass -C ".\adb wait-for-device; .\scrcpy.exe --new-display=1080x1920/330 --keyboard=uhid --mouse=uhid -S; .\adb kill-server; rm -Fo -Path $env:USERPROFILE\.android\adbkey* "
 ```
