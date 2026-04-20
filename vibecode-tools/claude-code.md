@@ -51,9 +51,9 @@ export ANTHROPIC_MODEL="us.anthropic.claude-opus-4-7-v1:0"
 1. **AWS 콘솔**: Bedrock → "Model access" / "Model catalog"에서 활성화된 모델의 ID 확인 (가장 확실)
 2. **AWS CLI**:
    ```bash
-   aws bedrock list-foundation-models --region us-west-2 \
+   aws bedrock list-foundation-models --region ap-northeast-2 \
      --query "modelSummaries[?contains(modelId, 'claude')].modelId"
-   aws bedrock list-inference-profiles --region us-west-2 \
+   aws bedrock list-inference-profiles --region ap-northeast-2 \
      --query "inferenceProfileSummaries[].inferenceProfileId"
    ```
    계정에서 실제 호출 가능한 ID만 나오므로 오타/권한 문제를 동시에 걸러낼 수 있다
