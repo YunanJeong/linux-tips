@@ -59,6 +59,7 @@ export ANTHROPIC_MODEL="us.anthropic.claude-opus-4-7-v1:0"
    계정에서 실제 호출 가능한 ID만 나오므로 오타/권한 문제를 동시에 걸러낼 수 있다
 3. **Anthropic 공식 문서** "Models overview"의 Bedrock ID 표 참조
 4. **cross-region inference**가 필요한 최신 모델은 foundation model ID가 아닌 **inference profile ID**(접두사 `us.` 등)를 써야 하는 경우가 많음 — 호출 실패 시 profile ID로 바꿔 시도
+5. 리전 및 모델 정보 참고: https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html?refid=5eabf6f5-7510-4f30-9f4b-03d1339cf4e0
 
 ## 설정 파일 위치
 
