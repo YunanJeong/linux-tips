@@ -1,0 +1,99 @@
+# Claude Code Skills
+
+## 왜 쓰는가
+
+자주 쓰는 지시사항/워크플로우를 매번 길게 프롬프트로 치지 않고, 파일로 저장해두고 꺼내 쓰기 위해서. 같은 맥락 설명을 반복하지 않아도 되고, 팀원과 공유하기도 쉽다.
+
+호출 방식:
+- 수동 — `/이름`으로 직접 호출
+- 자동 — Claude가 대화 맥락 보고 description에 맞다 싶으면 알아서 호출 (그래서 description에 "언제 쓰는지"를 적음)
+
+다른 메커니즘과 비교:
+- ".vs CLAUDE.md/memory" — 항상 컨텍스트에 실리는 것과 달리 skill은 호출될 때만 로드돼 평소 토큰 낭비가 없음
+- ".vs 그냥 프롬프트 복붙" — 파일로 버전 관리/공유/업데이트 가능
+- ".vs hook" — hook은 harness가 규칙대로 무조건 실행(확정적), skill 자동 호출은 Claude가 description 읽고 판단(불확실). 매번 반드시 실행돼야 하면 hook, 맥락에 맞을 때만이면 skill.
+
+`/review`, `/init` 같은 Claude Code 기본 명령도 전부 skill로 구현돼 있다. 사용자가 만드는 것과 같은 구조.
+
+## 파일 규격
+
+### 폴더 구조
+
+```
+my-skill/
+├── SKILL.md      # 필수
+├── scripts/      # (선택) 실행 스크립트
+├── references/   # (선택) 긴 참조 문서
+└── assets/       # (선택) 템플릿, 리소스 파일
+```
+
+### SKILL.md 구조
+
+```yaml
+---
+name: my-skill
+description: >
+  여기에 이 스킬이 어떤 용도이고 언제 호출될지 기술한다.(What/When/trigger)
+  
+  짧고 명확하게 쓰는 게 원칙이지만, 지금처럼 YAML 멀티라인(>)으로 길게써도 문법상 허용됨.
+  Claude가 이걸 읽고 자동 호출 여부를 판단하기 때문에, 맥락/예시를 구체적으로 적을수록 정확도가 올라감.
+
+  `---` 로 감싼 이 블록 전체를 frontmatter라고 부름 (YAML 메타데이터, 파일이 "뭔지" 알려주는 꼬리표).
+  `name`과 `description`은 고정 키라 오타나면 인식 안 됨.
+---
+
+# 본문 시작
+- 여기서부터 본문이고 자유 마크다운.
+- 호출될 때만 로드되므로 "어떻게 수행하는지" 상세 지시사항, 절차, 주의사항, 스크립트/참조 파일 사용법 등을 마음껏 길게 써도 됨.
+
+## How
+- 스킬 디렉토리 내 특정 스크립트나 긴 파일을 미리 넣어두고,
+- script.py를 활용하라
+- how-to-use.pdf 문서를 참고하라
+- 와 같이 활용 가능
+```
+
+### 예시
+
+```yaml
+---
+name: xlsx-editor
+description: xlsx 파일을 열어 열 추가/수식 삽입 등 편집 작업을 할 때 사용
+---
+
+# xlsx 편집기
+
+## 절차
+1. openpyxl로 파일 로드
+2. 사용자가 지정한 셀에 값/수식 입력
+3. 저장 후 경로 반환
+
+## 주의
+- 원본 보존이 필요하면 복사본에 작업
+```
+
+## 설치
+
+설치 = skill 폴더를 아래 경로에 복사. 별도 명령 없음. 재시작하면 `/name`으로 호출 가능.
+
+| 범위 | 경로 |
+|---|---|
+| 프로젝트 | `<프로젝트>/.claude/skills/<name>/` |
+| 전역 | `~/.claude/skills/<name>/` |
+
+하위 폴더로 중첩해도 됨 (재귀 스캔). 카테고리별로 묶어 정리 가능. 호출은 폴더 경로가 아니라 frontmatter의 `name` 기준이라 `name`만 유일하면 됨.
+
+```
+~/.claude/skills/
+├── my-skill/SKILL.md              # 평평하게
+├── coding/
+│   ├── refactor/SKILL.md          # 카테고리 하위
+│   └── test-gen/SKILL.md
+└── writing/blog/draft/SKILL.md    # 더 깊어도 OK
+```
+
+## 배포 (보편적 방법)
+
+- 개인 공유 → GitHub 레포 + README에 경로 안내 (대부분 이 방식)
+- 공개 배포 → Plugin Marketplace (`/plugin marketplace add <github-url>`)
+- 일회성 전달 → `.skill` 패키지 파일
