@@ -33,7 +33,7 @@ eap=peap;
 # phase2-auth: 2단계 내부 암호화 방식으로 mschapv2를 강제 지정합니다.
 phase2-auth=mschapv2
 
-# system-ca-certs: 시스템에 저장된 CA 인증서 검증 기능을 무력화합니다.
+# system-ca-certs: 시스템에 저장된 CA 인증서 검증 기능을 해제(GUI에서 해당부분을 체크했더라도 적용안되므로 여기서 지정 필요)
 system-ca-certs=false
 
 # phase1-auth-flags: 숫자 '32'는 내부적으로 '인증서 체크 강제 무시(No CA)'를 뜻하는 비트마스크 플래그입니다.
