@@ -18,6 +18,12 @@
 - 현재 연결시도상황이 어떠한지는 `NetworkManager` 로그를 통해 간접확인가능(다른문제 발생시에도 트러블슈팅으로 참고)
 
 ```ini
+[wifi]
+...
+# 동일이름의 AP장비가 여러 개 있을때 AP물리장비 고정하기.(nmcli dev wifi 명령어로 그나마 가장 신호가 센 장비 확인. 여러 AP의 신호세기가 애매할 때 왔다갔다하는 현상을 방지함)
+bssid=XX:XX:XX:XX:XX:XX
+...
+
 [wifi-security]
 # key-mgmt: 인증 규격을 기업용 WPA-EAP 방식으로 강제 고정하여 자동 탐색 지연을 방지합니다.
 key-mgmt=wpa-eap
