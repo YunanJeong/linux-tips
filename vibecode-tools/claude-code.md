@@ -22,14 +22,16 @@
 
 기존 인증해제, 환경변수 등록 후 재시작으로 로컬 LLM 적용 가능
 
-### `/model`에 안 뜨는 모델 사용하기 (Bedrock 기준)
+### `/model`에 안 뜨는 모델 사용하기
 
-Bedrock 연동으로 Claude Code를 쓸 때 `/model` 목록에는 기본 후보만 뜨고, 신규/구버전 모델은 누락되는 경우가 많다. 이땐 Bedrock 모델 ID를 직접 지정하면 된다.
+Claude Code의 `/model` 선택지에는 기본 후보만 뜨고, 신규/구버전 모델은 누락되는 경우가 많다. 두 가지 환경변수 방식을 쓸 수 있고, **역할이 다르므로** 상황에 맞게 고른다 (Bedrock·Anthropic API 공용).
 
-**방법** — 환경변수 또는 설정 파일에 Bedrock 모델 ID를 지정:
+#### 방식 A — `ANTHROPIC_MODEL`: 기본 모델을 **강제 지정**
+
+세션의 활성 모델을 직접 박아 넣는다. `/model` 선택지에는 새 항목이 추가되지 않는다.
 
 ```bash
-# 환경변수 방식 (재시작 필요)
+# Bedrock 예시
 export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=us-west-2
 export ANTHROPIC_MODEL="us.anthropic.claude-opus-4-7-v1:0"
@@ -46,7 +48,38 @@ export ANTHROPIC_MODEL="us.anthropic.claude-opus-4-7-v1:0"
 }
 ```
 
-**정확한 Bedrock 모델 ID 찾는 법** — Bedrock ID는 `provider.model-name-version:revision` 형식이고, 리전별 inference profile은 앞에 `us.` / `eu.` / `apac.` 같은 접두사가 붙는다. 표시명이 아니라 이 ID 문자열을 정확히 넣어야 동작한다.
+`--model` CLI 플래그나 세션 내 `/model`이 이 값을 덮어쓴다. 시작 시점에만 읽으므로 변경 후엔 재시작 필요.
+
+#### 방식 B — `ANTHROPIC_CUSTOM_MODEL_OPTION` + `_NAME`: `/model` 목록에 **항목 추가**
+
+기본 후보를 유지한 채 커스텀 모델을 picker에 끼워 넣는다. `_NAME`이 화면에 보이는 라벨, `_OPTION`이 실제 호출 모델 ID.
+
+```bash
+export ANTHROPIC_CUSTOM_MODEL_OPTION="global.anthropic.claude-fable-5"
+export ANTHROPIC_CUSTOM_MODEL_OPTION_NAME="fable5"
+# 선택사항
+export ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION="Fable 5 (cross-region)"
+export ANTHROPIC_CUSTOM_MODEL_OPTION_SUPPORTED_CAPABILITIES="..."
+```
+
+두 방식은 **함께 써도 충돌하지 않는다** — B로 항목을 등록하고 A로 그걸 기본값으로 활성화하는 패턴이 흔함.
+
+#### 관련 환경변수 (alias가 가리킬 모델 고정)
+
+`opus` / `sonnet` / `haiku` / `fable` alias가 어떤 실제 모델 ID로 풀릴지 지정:
+
+- `ANTHROPIC_DEFAULT_OPUS_MODEL`
+- `ANTHROPIC_DEFAULT_SONNET_MODEL`
+- `ANTHROPIC_DEFAULT_HAIKU_MODEL` (구 `ANTHROPIC_SMALL_FAST_MODEL` 대체)
+- `ANTHROPIC_DEFAULT_FABLE_MODEL`
+
+#### 정확한 모델 ID 찾는 법 (Bedrock)
+
+Bedrock ID는 `provider.model-name-version:revision` 형식. 표시명이 아니라 이 ID 문자열을 정확히 넣어야 동작한다. 접두사로 라우팅 범위가 결정됨:
+
+- `us.` / `eu.` / `apac.` — 해당 권역 cross-region inference profile
+- `global.` — 전 권역 cross-region inference profile (가장 광역)
+- 접두사 없음 (`anthropic.claude-...`) — 단일 리전 foundation model
 
 1. **AWS 콘솔**: Bedrock → "Model access" / "Model catalog"에서 활성화된 모델의 ID 확인 (가장 확실)
 2. **AWS CLI**:
@@ -58,7 +91,7 @@ export ANTHROPIC_MODEL="us.anthropic.claude-opus-4-7-v1:0"
    ```
    계정에서 실제 호출 가능한 ID만 나오므로 오타/권한 문제를 동시에 걸러낼 수 있다
 3. **Anthropic 공식 문서** "Models overview"의 Bedrock ID 표 참조
-4. **cross-region inference**가 필요한 최신 모델은 foundation model ID가 아닌 **inference profile ID**(접두사 `us.` 등)를 써야 하는 경우가 많음 — 호출 실패 시 profile ID로 바꿔 시도
+4. **cross-region inference**가 필요한 최신 모델은 foundation model ID가 아닌 **inference profile ID**(`us.` / `global.` 등)를 써야 하는 경우가 많음 — 호출 실패 시 profile ID로 바꿔 시도
 5. 리전 및 모델 정보 참고: https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html?refid=5eabf6f5-7510-4f30-9f4b-03d1339cf4e0
 
 ## 설정 파일 위치
