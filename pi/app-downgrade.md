@@ -26,15 +26,15 @@ dpkg --print-architecture
 
 ```sh
 # 되돌아갈 148 버전 deb 파일 다운로드
-wget https://archive.raspberrypi.com/debian/pool/main/c/chromium/chromium_148.0.7778.167-1~deb13u1+rpt1_armhf.deb
-wget https://archive.raspberrypi.com/debian/pool/main/c/chromium/chromium-common_148.0.7778.167-1~deb13u1+rpt1_armhf.deb
+# wget https://archive.raspberrypi.com/debian/pool/main/c/chromium/chromium_148.0.7778.167-1~deb13u1+rpt1_armhf.deb
+# wget https://archive.raspberrypi.com/debian/pool/main/c/chromium/chromium-common_148.0.7778.167-1~deb13u1+rpt1_armhf.deb
 
 # 또는 147(148 너무느리네)
 wget https://archive.raspberrypi.com/debian/pool/main/c/chromium/chromium_147.0.7727.116-1~deb13u1+rpt1_armhf.deb
 wget https://archive.raspberrypi.com/debian/pool/main/c/chromium/chromium-common_147.0.7727.116-1~deb13u1+rpt1_armhf.deb
 
 # deb 파일로 설치 (다운그레이드 허용)
-sudo apt install --allow-downgrades ./chromium_148*.deb ./chromium-common_148*.deb
+sudo apt install --allow-downgrades ./chromium_*.deb ./chromium-common_*.deb
 ```
 
 ## 버전 확인
